@@ -1,0 +1,17 @@
+{
+  "name": "financial-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev": "pnpm --parallel dev:*",
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.0.0"
+}
