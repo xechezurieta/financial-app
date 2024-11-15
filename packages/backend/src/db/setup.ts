@@ -57,7 +57,7 @@ async function setupLocalPostgres() {
 services:
   postgres:
     image: postgres:16.4-alpine
-    container_name: fit-calc-postgres
+    container_name: financial-postgres
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
