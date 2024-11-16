@@ -1,3 +1,7 @@
+import { useTransition } from 'react'
+import { toast } from 'sonner'
+
+import { createAccount } from '@/actions/account'
 import AccountForm from '@/components/account/account-form'
 import {
 	Sheet,
@@ -10,7 +14,16 @@ import { useNewAccount } from '@/stores/use-new-account'
 
 export default function NewAccountSheet() {
 	const { isOpen, onClose } = useNewAccount()
+	const [isCreatingAccount, createAccountTransition] = useTransition()
 	const onSubmit = ({ name }: { name: string }) => {
+		createAccountTransition(async () => {
+			const account = await createAccount(name)
+			if (account && 'error' in account) {
+				toast.error('Error creando la cuenta')
+				return
+			}
+			toast.success('Cuenta creada')
+		})
 		console.log(name)
 	}
 	return (
@@ -24,7 +37,7 @@ export default function NewAccountSheet() {
 				</SheetHeader>
 				<AccountForm
 					onSubmit={onSubmit}
-					disabled={false}
+					disabled={isCreatingAccount}
 					defaultValues={{
 						name: ''
 					}}
