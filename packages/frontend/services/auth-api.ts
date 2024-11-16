@@ -1,4 +1,5 @@
 import { getAPIUrl } from '@/lib/utils'
+import { User } from '@/types/types'
 
 export const login = async (email: string, password: string) => {
 	const apiUrl = getAPIUrl('/login')
@@ -13,7 +14,7 @@ export const login = async (email: string, password: string) => {
 		if (!response.ok) {
 			return null
 		}
-		const data = await response.json()
+		const data: { user: User } = await response.json()
 		return data.user
 	} catch (error) {
 		console.error(error)
