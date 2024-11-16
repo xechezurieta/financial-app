@@ -29,10 +29,10 @@ export async function createAccount(userId: string, name: string) {
 		const [account] = await db
 			.insert(accountsTable)
 			.values({
-				id: '1232',
+				id: crypto.randomUUID(),
 				userId,
 				name,
-				plaidId: 'testPlaidId'
+				plaidId: crypto.randomUUID()
 			})
 			.returning()
 		return account
