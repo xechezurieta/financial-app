@@ -1,3 +1,4 @@
+import AccountForm from '@/components/account/account-form'
 import {
 	Sheet,
 	SheetContent,
@@ -9,6 +10,9 @@ import { useNewAccount } from '@/stores/use-new-account'
 
 export default function NewAccountSheet() {
 	const { isOpen, onClose } = useNewAccount()
+	const onSubmit = ({ name }: { name: string }) => {
+		console.log(name)
+	}
 	return (
 		<Sheet open={isOpen} onOpenChange={onClose}>
 			<SheetContent className='space-y-4'>
@@ -18,6 +22,13 @@ export default function NewAccountSheet() {
 						Crea una nueva cuenta para empezar controlar tus transacciones.
 					</SheetDescription>
 				</SheetHeader>
+				<AccountForm
+					onSubmit={onSubmit}
+					disabled={false}
+					defaultValues={{
+						name: ''
+					}}
+				/>
 			</SheetContent>
 		</Sheet>
 	)
