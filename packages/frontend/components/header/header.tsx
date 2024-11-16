@@ -1,5 +1,6 @@
 import Logo from '@/components/header/logo'
 import Navigation from '@/components/header/navigation'
+import Welcome from '@/components/header/welcome'
 
 export default function Header() {
 	return (
@@ -11,6 +12,7 @@ export default function Header() {
 						<Navigation />
 					</div>
 				</div>
+				<Welcome />
 			</div>
 		</header>
 	)
