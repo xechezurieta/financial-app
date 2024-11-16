@@ -35,7 +35,7 @@ export default function RootLayout({
 				<SheetProvider />
 				{children}
 
-				<Toaster />
+				<Toaster richColors />
 			</body>
 		</html>
 	)
