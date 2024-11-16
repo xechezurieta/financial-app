@@ -1,6 +1,6 @@
 import { NextAuthConfig } from 'next-auth'
 
-const protectedRoutes = ['/', '/home', '/food', '/my-profile']
+const protectedRoutes = ['/', '/dashboard', '/food', '/my-profile']
 
 export const authConfig = {
 	pages: {
@@ -19,7 +19,7 @@ export const authConfig = {
 			let isOnLogin = nextUrl.pathname.startsWith('/login')
 
 			if (isLoggedIn && (isOnLogin || isOnRegister)) {
-				return Response.redirect(new URL('/home', nextUrl))
+				return Response.redirect(new URL('/dashboard', nextUrl))
 			}
 
 			if (isOnRegister || isOnLogin) {
@@ -32,7 +32,7 @@ export const authConfig = {
 			}
 
 			if (isLoggedIn) {
-				return Response.redirect(new URL('/home', nextUrl))
+				return Response.redirect(new URL('/dashboard', nextUrl))
 			}
 
 			return true
