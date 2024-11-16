@@ -16,9 +16,9 @@ export const createAccountController = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const { name } = req.body
+	const { name, userId } = req.body
 	try {
-		const account = await createAccount('1', name)
+		const account = await createAccount(userId, name)
 		res.json({ account })
 	} catch (error) {
 		res.status(500).json({ message: 'Server error' })
