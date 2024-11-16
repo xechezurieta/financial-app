@@ -22,8 +22,8 @@ import {
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
-	email: z.string().email('Invalid email address'),
-	password: z.string().min(6, 'Password must be at least 6 characters')
+	email: z.string().email('Introduce un email válido'),
+	password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres')
 })
 
 export function LoginForm() {
@@ -41,11 +41,10 @@ export function LoginForm() {
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		startLoginTransition(async () => {
 			const data = await login(values)
-			console.log({ data })
 			if (data.status === 'failed') {
-				toast.error('Invalid credentials!')
+				toast.error('Credenciales inválidas')
 			} else if (data.status === 'invalid_data') {
-				toast.error('Failed validating your submission!')
+				toast.error('No se ha podido validar los datos')
 			} else if (data.status === 'success') {
 				router.refresh()
 			}
@@ -60,16 +59,15 @@ export function LoginForm() {
 					name='email'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='text-emerald-700'>Email</FormLabel>
+							<FormLabel>Correo electrónico</FormLabel>
 							<FormControl>
 								<Input
 									placeholder='Enter your email'
 									{...field}
 									disabled={isPending}
-									className='border-emerald-200 focus:border-emerald-400'
 								/>
 							</FormControl>
-							<FormMessage className='text-red-500' />
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -78,7 +76,7 @@ export function LoginForm() {
 					name='password'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='text-emerald-700'>Password</FormLabel>
+							<FormLabel>Contraseña</FormLabel>
 							<FormControl>
 								<div className='relative'>
 									<Input
@@ -86,7 +84,7 @@ export function LoginForm() {
 										placeholder='Enter your password'
 										{...field}
 										disabled={isPending}
-										className='border-emerald-200 focus:border-emerald-400 pr-10'
+										className=' pr-10'
 									/>
 									<button
 										type='button'
@@ -97,17 +95,17 @@ export function LoginForm() {
 									</button>
 								</div>
 							</FormControl>
-							<FormMessage className='text-red-500' />
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<Button
 					type='submit'
-					className='w-full bg-emerald-600 hover:bg-emerald-700 text-white'
+					className='w-full text-white'
 					disabled={isPending}
 				>
 					{isPending && <Loader2 size={16} className='mr-2 animate-spin' />}
-					{isPending ? 'Logging in...' : 'Log in'}
+					{isPending ? 'Iniciando sesión' : 'Iniciar sesión'}
 				</Button>
 			</form>
 		</Form>
