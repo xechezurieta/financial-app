@@ -1,3 +1,4 @@
+import AvatarMenu from '@/components/header/avatar-menu'
 import Logo from '@/components/header/logo'
 import Navigation from '@/components/header/navigation'
 import Welcome from '@/components/header/welcome'
@@ -11,6 +12,7 @@ export default function Header() {
 						<Logo />
 						<Navigation />
 					</div>
+					<AvatarMenu />
 				</div>
 				<Welcome />
 			</div>
