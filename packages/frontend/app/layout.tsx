@@ -2,6 +2,7 @@ import localFont from 'next/font/local'
 
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
+import SheetProvider from '@/providers/sheet-provider'
 
 import type { Metadata } from 'next'
 
@@ -31,7 +32,9 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<SheetProvider />
 				{children}
+
 				<Toaster />
 			</body>
 		</html>

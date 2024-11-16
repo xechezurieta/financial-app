@@ -11,7 +11,7 @@ export default function Logo() {
 					height={28}
 					alt='Financial logo'
 				/>
-				<p className='font-semibol text-white text-2xl ml-2'>Financial</p>
+				<p className='font-semibold text-white text-2xl ml-2'>Financial</p>
 			</div>
 		</Link>
 	)
