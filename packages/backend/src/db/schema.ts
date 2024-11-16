@@ -1,4 +1,5 @@
 import { integer, pgTable, serial, varchar, text } from 'drizzle-orm/pg-core'
+import { createInsertSchema } from 'drizzle-zod'
 
 export const usersTable = pgTable('users', {
 	id: serial('id').primaryKey(),
@@ -18,3 +19,4 @@ export const accountsTable = pgTable('accounts', {
 })
 
 export type Account = typeof accountsTable.$inferSelect
+export const insertAccountSchema = createInsertSchema(accountsTable)

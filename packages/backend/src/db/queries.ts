@@ -12,11 +12,32 @@ export async function getUser(email: string): Promise<Array<User>> {
 	}
 }
 
-export async function getAccounts() {
+export async function getAccounts(userId: string) {
 	try {
-		return await db.select().from(accountsTable)
+		return await db
+			.select()
+			.from(accountsTable)
+			.where(eq(accountsTable.userId, userId))
 	} catch (error) {
 		console.error('Failed to get accounts from database')
+		throw error
+	}
+}
+
+export async function createAccount(userId: string, name: string) {
+	try {
+		const [account] = await db
+			.insert(accountsTable)
+			.values({
+				id: '1232',
+				userId,
+				name,
+				plaidId: 'testPlaidId'
+			})
+			.returning()
+		return account
+	} catch (error) {
+		console.error('Failed to create account in database', error)
 		throw error
 	}
 }
