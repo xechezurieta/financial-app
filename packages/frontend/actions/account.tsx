@@ -52,3 +52,25 @@ export const deleteAccounts = async (accountIds: Array<string>) => {
 		return { error: 'Error deleting accounts' }
 	}
 }
+
+export const getAccount = async (accountId: string) => {
+	const session = await auth()
+	if (!session) return
+	const apiUrl = getAPIUrl('/accounts/account')
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userId: session.user?.id,
+				accountId
+			})
+		})
+		const data: { account: Account } = await response.json()
+		return data
+	} catch (error) {
+		return { error: 'Error getting account' }
+	}
+}

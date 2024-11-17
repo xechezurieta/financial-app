@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import EditAccountSheet from '@/components/account/edit-account-sheet'
 import NewAccountSheet from '@/components/account/new-account-sheet'
 
 export default function SheetProvider() {
@@ -12,6 +13,7 @@ export default function SheetProvider() {
 	if (!isMounted) return null
 	return (
 		<>
+			<EditAccountSheet />
 			<NewAccountSheet />
 		</>
 	)
