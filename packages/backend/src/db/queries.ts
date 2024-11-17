@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 
 import { db } from './drizzle'
 import { accountsTable, User, usersTable } from './schema'
@@ -38,6 +38,28 @@ export async function createAccount(userId: string, name: string) {
 		return account
 	} catch (error) {
 		console.error('Failed to create account in database', error)
+		throw error
+	}
+}
+
+export async function deleteAccounts(
+	userId: string,
+	accountIds: Array<string>
+) {
+	try {
+		return await db
+			.delete(accountsTable)
+			.where(
+				and(
+					eq(accountsTable.userId, userId),
+					inArray(accountsTable.id, accountIds)
+				)
+			)
+			.returning({
+				id: accountsTable.id
+			})
+	} catch (error) {
+		console.error('Failed to delete accounts from database', error)
 		throw error
 	}
 }
