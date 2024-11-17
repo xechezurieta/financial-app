@@ -1,7 +1,14 @@
-import { and, eq, inArray } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray } from 'drizzle-orm'
 
 import { db } from './drizzle'
-import { accountsTable, categoriesTable, User, usersTable } from './schema'
+import {
+	accountsTable,
+	categoriesTable,
+	transactionsTable,
+	User,
+	usersTable
+} from './schema'
+import { parse, subDays } from 'date-fns'
 
 export async function getUser(email: string): Promise<Array<User>> {
 	try {
@@ -236,6 +243,128 @@ export async function deleteCategory(userId: string, categoryId: string) {
 		return category
 	} catch (error) {
 		console.error('Failed to delete category from database', error)
+		throw error
+	}
+}
+
+export async function getTransactions({
+	from,
+	to,
+	accountId,
+	userId
+}: {
+	from: string | undefined
+	to: string | undefined
+	accountId: string | undefined
+	userId: string
+}) {
+	const defaultTo = new Date()
+	const defaultFrom = subDays(defaultTo, 30)
+
+	const startDate = from ? parse(from, 'yyyy-MM-dd', new Date()) : defaultFrom
+	const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo
+
+	try {
+		return await db
+			.select({
+				id: transactionsTable.id,
+				date: transactionsTable.date,
+				category: categoriesTable.name,
+				categoryId: transactionsTable.categoryId,
+				payee: transactionsTable.payee,
+				amount: transactionsTable.amount,
+				notes: transactionsTable.notes,
+				account: accountsTable.name,
+				accountId: transactionsTable.accountId
+			})
+			.from(transactionsTable)
+			.innerJoin(
+				accountsTable,
+				eq(transactionsTable.accountId, accountsTable.id)
+			)
+			.leftJoin(
+				categoriesTable,
+				eq(transactionsTable.categoryId, categoriesTable.id)
+			)
+			.where(
+				and(
+					accountId ? eq(transactionsTable.accountId, accountId) : undefined,
+					eq(accountsTable.userId, userId),
+					gte(transactionsTable.date, startDate),
+					gte(transactionsTable.date, endDate)
+				)
+			)
+			.orderBy(desc(transactionsTable.date))
+	} catch (error) {
+		console.error('Failed to get transactions from database', error)
+		throw error
+	}
+}
+
+export async function getTransaction(transactionId: string, userId: string) {
+	try {
+		const [data] = await db
+			.select({
+				id: transactionsTable.id,
+				date: transactionsTable.date,
+				categoryId: transactionsTable.categoryId,
+				payee: transactionsTable.payee,
+				amount: transactionsTable.amount,
+				notes: transactionsTable.notes,
+				accountId: transactionsTable.accountId
+			})
+			.from(transactionsTable)
+			.innerJoin(
+				accountsTable,
+				eq(transactionsTable.accountId, accountsTable.id)
+			)
+			.where(
+				and(
+					eq(transactionsTable.id, transactionId),
+					eq(accountsTable.userId, userId)
+				)
+			)
+
+		return data
+	} catch (error) {
+		console.error('Failed to get transaction from database', error)
+		throw error
+	}
+}
+
+export async function createTransaction({
+	userId,
+	date,
+	categoryId,
+	payee,
+	amount,
+	notes,
+	accountId
+}: {
+	userId: string
+	date: Date
+	categoryId: string
+	payee: string
+	amount: number
+	notes: string
+	accountId: string
+}) {
+	try {
+		const [transaction] = await db
+			.insert(transactionsTable)
+			.values({
+				id: crypto.randomUUID(),
+				date,
+				categoryId,
+				payee,
+				amount,
+				notes,
+				accountId
+			})
+			.returning()
+		return transaction
+	} catch (error) {
+		console.error('Failed to create transaction in database', error)
 		throw error
 	}
 }

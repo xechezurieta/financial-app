@@ -16,6 +16,7 @@ import {
 	getCategoriesController,
 	getCategoryController
 } from './controllers/category.controller'
+import { getTransactionsController } from './controllers/transaction.controller'
 
 const app = express()
 
@@ -42,6 +43,10 @@ app.post('/categories/bulk-delete', bulkDeleteCategoriesController)
 app.post('/categories/category', getCategoryController)
 app.patch('/categories', editCategoryNameController)
 app.post('/categories/single-delete', deleteCategoryController)
+
+/* Transactions */
+
+app.get('/transactions', getTransactionsController)
 
 app.listen(3001, () => {
 	console.log('Backend listening on port 3001')
