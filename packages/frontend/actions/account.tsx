@@ -74,3 +74,33 @@ export const getAccount = async (accountId: string) => {
 		return { error: 'Error getting account' }
 	}
 }
+
+export const editAccountName = async ({
+	name,
+	accountId
+}: {
+	name: string
+	accountId: string
+}) => {
+	const session = await auth()
+	if (!session) return
+	const apiUrl = getAPIUrl('/accounts')
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userId: session.user?.id,
+				accountId,
+				name
+			})
+		})
+		const data: { account: Account } = await response.json()
+		revalidatePath('/accounts')
+		return data
+	} catch (error) {
+		return { error: 'Error creating account' }
+	}
+}

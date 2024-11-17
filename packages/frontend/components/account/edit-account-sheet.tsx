@@ -2,7 +2,7 @@ import { Loader2 } from 'lucide-react'
 import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createAccount, getAccount } from '@/actions/account'
+import { editAccountName, getAccount } from '@/actions/account'
 import AccountForm from '@/components/account/account-form'
 import {
 	Sheet,
@@ -16,7 +16,7 @@ import { Account } from '@/types/types'
 
 export default function EditAccountSheet() {
 	const { isOpen, onClose, id } = useOpenAccount()
-	const [isCreatingAccount, createAccountTransition] = useTransition()
+	const [isEditingAccount, editAccountTransition] = useTransition()
 	const [account, setAccount] = useState<Account | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -35,14 +35,15 @@ export default function EditAccountSheet() {
 	}, [id])
 
 	const onSubmit = ({ name }: { name: string }) => {
-		createAccountTransition(async () => {
-			const account = await createAccount(name)
+		editAccountTransition(async () => {
+			if (!id) return
+			const account = await editAccountName({ name, accountId: id })
 			if (account && 'error' in account) {
-				toast.error('Error creando la cuenta')
+				toast.error('Error editando la cuenta')
 				return
 			}
 			onClose()
-			toast.success('Cuenta creada')
+			toast.success('Cuenta editada')
 		})
 	}
 
@@ -61,7 +62,7 @@ export default function EditAccountSheet() {
 					<AccountForm
 						id={id}
 						onSubmit={onSubmit}
-						disabled={isCreatingAccount || isLoading}
+						disabled={isEditingAccount || isLoading}
 						defaultValues={{
 							name: account?.name || ''
 						}}
