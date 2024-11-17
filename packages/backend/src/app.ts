@@ -3,6 +3,7 @@ import { login } from './controllers/auth.controller'
 import {
 	bulkDeleteAccountsController,
 	createAccountController,
+	editAccountNameController,
 	getAccountController,
 	getAccountsController
 } from './controllers/account.controller'
@@ -21,6 +22,7 @@ app.get('/accounts', getAccountsController)
 app.post('/accounts', createAccountController)
 app.post('/accounts/bulk-delete', bulkDeleteAccountsController)
 app.post('/accounts/account', getAccountController)
+app.patch('/accounts', editAccountNameController)
 
 app.listen(3001, () => {
 	console.log('Backend listening on port 3001')
