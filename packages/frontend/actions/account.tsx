@@ -22,6 +22,9 @@ export const createAccount = async (name: string) => {
 				name
 			})
 		})
+		if (!response.ok) {
+			return { error: 'Error creating account' }
+		}
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
 		return data
@@ -45,6 +48,9 @@ export const deleteAccounts = async (accountIds: Array<string>) => {
 				accountIds
 			})
 		})
+		if (!response.ok) {
+			return { error: 'Error deleting accounts' }
+		}
 		const data: { deletedAccounts: Array<string> } = await response.json()
 		revalidatePath('/accounts')
 		return data
@@ -68,6 +74,9 @@ export const getAccount = async (accountId: string) => {
 				accountId
 			})
 		})
+		if (!response.ok) {
+			return { error: 'Error getting account' }
+		}
 		const data: { account: Account } = await response.json()
 		return data
 	} catch (error) {
@@ -97,10 +106,39 @@ export const editAccountName = async ({
 				name
 			})
 		})
+		if (!response.ok) {
+			return { error: 'Error creating account' }
+		}
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
 		return data
 	} catch (error) {
 		return { error: 'Error creating account' }
+	}
+}
+
+export const deleteAccount = async (accountId: string) => {
+	const session = await auth()
+	if (!session) return
+	const apiUrl = getAPIUrl('/accounts/single-delete')
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userId: session.user?.id,
+				accountId
+			})
+		})
+		if (!response.ok) {
+			return { error: 'Error deleting account' }
+		}
+		const data: { account: Account } = await response.json()
+		revalidatePath('/accounts')
+		return data
+	} catch (error) {
+		return { error: 'Error deleting account' }
 	}
 }
