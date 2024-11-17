@@ -24,6 +24,24 @@ export async function getAccounts(userId: string) {
 	}
 }
 
+export async function getAccount(accountId: string, userId: string) {
+	try {
+		const [data] = await db
+			.select({
+				id: accountsTable.id,
+				name: accountsTable.name
+			})
+			.from(accountsTable)
+			.where(
+				and(eq(accountsTable.id, accountId), eq(accountsTable.userId, userId))
+			)
+		return data
+	} catch (error) {
+		console.error('Failed to get account from database', error)
+		throw error
+	}
+}
+
 export async function createAccount(userId: string, name: string) {
 	try {
 		const [account] = await db

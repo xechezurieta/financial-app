@@ -3,6 +3,7 @@ import { login } from './controllers/auth.controller'
 import {
 	bulkDeleteAccountsController,
 	createAccountController,
+	getAccountController,
 	getAccountsController
 } from './controllers/account.controller'
 
@@ -15,10 +16,11 @@ app.get('/', (req, res) => {
 })
 
 app.post('/login', login)
-
+//TODO: organize routes with router and proper structure
 app.get('/accounts', getAccountsController)
 app.post('/accounts', createAccountController)
 app.post('/accounts/bulk-delete', bulkDeleteAccountsController)
+app.post('/accounts/account', getAccountController)
 
 app.listen(3001, () => {
 	console.log('Backend listening on port 3001')

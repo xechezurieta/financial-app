@@ -1,4 +1,9 @@
-import { createAccount, deleteAccounts, getAccounts } from '../db/queries'
+import {
+	createAccount,
+	deleteAccounts,
+	getAccount,
+	getAccounts
+} from '../db/queries'
 import { Request, Response } from 'express'
 export const getAccountsController = async (
 	req: Request,
@@ -33,6 +38,23 @@ export const bulkDeleteAccountsController = async (
 	try {
 		const deletedAccounts = await deleteAccounts(userId, accountIds)
 		res.json({ deletedAccounts })
+	} catch (error) {
+		res.status(500).json({ message: 'Server error' })
+	}
+}
+
+export const getAccountController = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
+	const { accountId, userId } = req.body
+	try {
+		const account = await getAccount(accountId, userId)
+		if (!account) {
+			res.status(404).json({ message: 'Account not found' })
+			return
+		}
+		res.json({ account })
 	} catch (error) {
 		res.status(500).json({ message: 'Server error' })
 	}
