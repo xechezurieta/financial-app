@@ -24,6 +24,7 @@ import {
 	TableHeader,
 	TableRow
 } from '@/components/ui/table'
+import { useConfirm } from '@/hooks/use-confirm'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -40,6 +41,10 @@ export function DataTable<TData, TValue>({
 	onDelete,
 	disabled
 }: DataTableProps<TData, TValue>) {
+	const { ConfirmDialog, confirm } = useConfirm({
+		title: 'Eliminar cuentas',
+		description: '¿Estás seguro de que deseas eliminar estas cuentas?'
+	})
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
@@ -79,7 +84,9 @@ export function DataTable<TData, TValue>({
 						variant='outline'
 						className='ml-auto font-normal text-xs'
 						disabled={disabled}
-						onClick={() => {
+						onClick={async () => {
+							const confirmed = await confirm()
+							if (!confirmed) return
 							onDelete(table.getFilteredSelectedRowModel().rows)
 							table.resetRowSelection()
 						}}
@@ -161,6 +168,7 @@ export function DataTable<TData, TValue>({
 					Siguiente
 				</Button>
 			</div>
+			<ConfirmDialog />
 		</div>
 	)
 }
