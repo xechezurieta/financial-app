@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { getAccounts } from '@/services/account-api'
-import { useNewAccount } from '@/stores/use-new-account'
+import { useNewAccount } from '@/stores/account/use-new-account'
 
 export default function Dashboard() {
 	/* const accounts = await getAccounts()

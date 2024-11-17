@@ -10,7 +10,7 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import { useNewAccount } from '@/stores/use-new-account'
+import { useNewAccount } from '@/stores/account/use-new-account'
 
 export default function NewAccountSheet() {
 	const { isOpen, onClose } = useNewAccount()

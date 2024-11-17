@@ -12,7 +12,7 @@ import {
 	SheetTitle
 } from '@/components/ui/sheet'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenAccount } from '@/stores/use-open-account'
+import { useOpenAccount } from '@/stores/account/use-open-account'
 import { Account } from '@/types/types'
 
 export default function EditAccountSheet() {

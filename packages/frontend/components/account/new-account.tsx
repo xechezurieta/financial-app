@@ -3,7 +3,7 @@
 import { Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { useNewAccount } from '@/stores/use-new-account'
+import { useNewAccount } from '@/stores/account/use-new-account'
 
 export default function NewAccount() {
 	const newAccount = useNewAccount()

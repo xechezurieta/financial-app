@@ -12,3 +12,10 @@ export type Account = {
 	name: string
 	userId: string
 }
+
+export type Category = {
+	id: string
+	plaidId: string | null
+	name: string
+	userId: string
+}
