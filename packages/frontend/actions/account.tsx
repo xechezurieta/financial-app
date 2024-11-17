@@ -29,3 +29,26 @@ export const createAccount = async (name: string) => {
 		return { error: 'Error creating account' }
 	}
 }
+
+export const deleteAccounts = async (accountIds: Array<string>) => {
+	const session = await auth()
+	if (!session) return
+	const apiUrl = getAPIUrl('/accounts/bulk-delete')
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userId: session.user?.id,
+				accountIds
+			})
+		})
+		const data: { deletedAccounts: Array<string> } = await response.json()
+		revalidatePath('/accounts')
+		return data
+	} catch (error) {
+		return { error: 'Error deleting accounts' }
+	}
+}
