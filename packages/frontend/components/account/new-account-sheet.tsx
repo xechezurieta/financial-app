@@ -22,6 +22,7 @@ export default function NewAccountSheet() {
 				toast.error('Error creando la cuenta')
 				return
 			}
+			onClose()
 			toast.success('Cuenta creada')
 		})
 		console.log(name)
