@@ -1,7 +1,7 @@
 import { and, eq, inArray } from 'drizzle-orm'
 
 import { db } from './drizzle'
-import { accountsTable, User, usersTable } from './schema'
+import { accountsTable, categoriesTable, User, usersTable } from './schema'
 
 export async function getUser(email: string): Promise<Array<User>> {
 	try {
@@ -11,7 +11,7 @@ export async function getUser(email: string): Promise<Array<User>> {
 		throw error
 	}
 }
-
+/* Accounts */
 export async function getAccounts(userId: string) {
 	try {
 		return await db
@@ -117,6 +117,125 @@ export async function deleteAccount(userId: string, accountId: string) {
 		return account
 	} catch (error) {
 		console.error('Failed to delete account from database', error)
+		throw error
+	}
+}
+
+/* Categories */
+export async function getCategories(userId: string) {
+	try {
+		return await db
+			.select()
+			.from(categoriesTable)
+			.where(eq(categoriesTable.userId, userId))
+	} catch (error) {
+		console.error('Failed to get categories from database')
+		throw error
+	}
+}
+
+export async function getCategory(categoryId: string, userId: string) {
+	try {
+		const [data] = await db
+			.select({
+				id: categoriesTable.id,
+				name: categoriesTable.name
+			})
+			.from(categoriesTable)
+			.where(
+				and(
+					eq(categoriesTable.id, categoryId),
+					eq(categoriesTable.userId, userId)
+				)
+			)
+		return data
+	} catch (error) {
+		console.error('Failed to get category from database', error)
+		throw error
+	}
+}
+
+export async function createCategory(userId: string, name: string) {
+	try {
+		const [category] = await db
+			.insert(categoriesTable)
+			.values({
+				id: crypto.randomUUID(),
+				userId,
+				name,
+				plaidId: crypto.randomUUID()
+			})
+			.returning()
+		return category
+	} catch (error) {
+		console.error('Failed to create category in database', error)
+		throw error
+	}
+}
+
+export async function deleteCategories(
+	userId: string,
+	categoryIds: Array<string>
+) {
+	try {
+		return await db
+			.delete(categoriesTable)
+			.where(
+				and(
+					eq(categoriesTable.userId, userId),
+					inArray(categoriesTable.id, categoryIds)
+				)
+			)
+			.returning({
+				id: categoriesTable.id
+			})
+	} catch (error) {
+		console.error('Failed to delete categories from database', error)
+		throw error
+	}
+}
+
+export async function editCategoryName(
+	categoryId: string,
+	userId: string,
+	name: string
+) {
+	try {
+		const [category] = await db
+			.update(categoriesTable)
+			.set({
+				name
+			})
+			.where(
+				and(
+					eq(categoriesTable.id, categoryId),
+					eq(categoriesTable.userId, userId)
+				)
+			)
+			.returning()
+		return category
+	} catch (error) {
+		console.error('Failed to edit category name in database', error)
+		throw error
+	}
+}
+
+export async function deleteCategory(userId: string, categoryId: string) {
+	try {
+		const [category] = await db
+			.delete(categoriesTable)
+			.where(
+				and(
+					eq(categoriesTable.userId, userId),
+					eq(categoriesTable.id, categoryId)
+				)
+			)
+			.returning({
+				id: categoriesTable.id
+			})
+		return category
+	} catch (error) {
+		console.error('Failed to delete category from database', error)
 		throw error
 	}
 }
