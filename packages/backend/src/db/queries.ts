@@ -103,3 +103,20 @@ export async function editAccountName(
 		throw error
 	}
 }
+
+export async function deleteAccount(userId: string, accountId: string) {
+	try {
+		const [account] = await db
+			.delete(accountsTable)
+			.where(
+				and(eq(accountsTable.userId, userId), eq(accountsTable.id, accountId))
+			)
+			.returning({
+				id: accountsTable.id
+			})
+		return account
+	} catch (error) {
+		console.error('Failed to delete account from database', error)
+		throw error
+	}
+}

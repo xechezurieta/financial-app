@@ -1,5 +1,6 @@
 import {
 	createAccount,
+	deleteAccount,
 	deleteAccounts,
 	editAccountName,
 	getAccount,
@@ -73,6 +74,23 @@ export const editAccountNameController = async (
 			return
 		}
 		res.json({ account })
+	} catch (error) {
+		res.status(500).json({ message: 'Server error' })
+	}
+}
+
+export const deleteAccountController = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
+	const { accountId, userId } = req.body
+	try {
+		const deletedAccount = await deleteAccount(userId, accountId)
+		if (!deletedAccount) {
+			res.status(404).json({ message: 'Account not found' })
+			return
+		}
+		res.json({ deletedAccount })
 	} catch (error) {
 		res.status(500).json({ message: 'Server error' })
 	}
