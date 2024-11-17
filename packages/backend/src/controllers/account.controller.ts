@@ -1,6 +1,7 @@
 import {
 	createAccount,
 	deleteAccounts,
+	editAccountName,
 	getAccount,
 	getAccounts
 } from '../db/queries'
@@ -50,6 +51,23 @@ export const getAccountController = async (
 	const { accountId, userId } = req.body
 	try {
 		const account = await getAccount(accountId, userId)
+		if (!account) {
+			res.status(404).json({ message: 'Account not found' })
+			return
+		}
+		res.json({ account })
+	} catch (error) {
+		res.status(500).json({ message: 'Server error' })
+	}
+}
+
+export const editAccountNameController = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
+	const { accountId, name, userId } = req.body
+	try {
+		const account = await editAccountName(accountId, userId, name)
 		if (!account) {
 			res.status(404).json({ message: 'Account not found' })
 			return
