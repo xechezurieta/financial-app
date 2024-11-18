@@ -27,11 +27,11 @@ export const getTransactions = async ({
 			})
 		})
 		if (!response.ok) {
-			return { error: 'Error getting transactions' }
+			return null
 		}
 		const data: { transactions: Transaction[] } = await response.json()
 		return data
 	} catch (error) {
-		return { error: 'Error getting transactions' }
+		return null
 	}
 }
