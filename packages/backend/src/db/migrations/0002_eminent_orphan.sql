@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 	"category_id" text
 );
 --> statement-breakpoint
+DROP TABLE "transactionss" CASCADE;--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "transactions" ADD CONSTRAINT "transactions_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION

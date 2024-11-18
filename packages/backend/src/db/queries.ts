@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, inArray } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, lte, sql } from 'drizzle-orm'
 
 import { db } from './drizzle'
 import {
@@ -291,7 +291,7 @@ export async function getTransactions({
 					accountId ? eq(transactionsTable.accountId, accountId) : undefined,
 					eq(accountsTable.userId, userId),
 					gte(transactionsTable.date, startDate),
-					gte(transactionsTable.date, endDate)
+					lte(transactionsTable.date, endDate)
 				)
 			)
 			.orderBy(desc(transactionsTable.date))
@@ -365,6 +365,141 @@ export async function createTransaction({
 		return transaction
 	} catch (error) {
 		console.error('Failed to create transaction in database', error)
+		throw error
+	}
+}
+
+export async function deleteTransactions(
+	userId: string,
+	transactionIds: Array<string>
+) {
+	try {
+		const transactionToDelete = db.$with('transactions_to_delete').as(
+			db
+				.select({ id: transactionsTable.id })
+				.from(transactionsTable)
+				.innerJoin(
+					accountsTable,
+					eq(transactionsTable.accountId, accountsTable.id)
+				)
+				.where(
+					and(
+						inArray(transactionsTable.id, transactionIds),
+						eq(accountsTable.userId, userId)
+					)
+				)
+		)
+		return await db
+			.with(transactionToDelete)
+			.delete(transactionsTable)
+			.where(
+				inArray(
+					transactionsTable.id,
+					sql`(select id from ${transactionToDelete})`
+				)
+			)
+			.returning({
+				id: transactionsTable.id
+			})
+	} catch (error) {
+		console.error('Failed to delete transactions from database', error)
+		throw error
+	}
+}
+
+export async function editTransaction({
+	userId,
+	transactionId,
+	date,
+	categoryId,
+	payee,
+	amount,
+	notes,
+	accountId
+}: {
+	userId: string
+	transactionId: string
+	date: Date
+	categoryId: string
+	payee: string
+	amount: number
+	notes: string
+	accountId: string
+}) {
+	try {
+		const transactionToUpdate = db.$with('transactions_to_update').as(
+			db
+				.select({ id: transactionsTable.id })
+				.from(transactionsTable)
+				.innerJoin(
+					accountsTable,
+					eq(transactionsTable.accountId, accountsTable.id)
+				)
+				.where(
+					and(
+						eq(transactionsTable.id, transactionId),
+						eq(accountsTable.userId, userId)
+					)
+				)
+		)
+		const [transaction] = await db
+			.with(transactionToUpdate)
+			.update(transactionsTable)
+			.set({
+				date,
+				categoryId,
+				payee,
+				amount,
+				notes,
+				accountId
+			})
+			.where(
+				inArray(
+					transactionsTable.id,
+					sql`(select id from ${transactionToUpdate})`
+				)
+			)
+
+			.returning()
+		return transaction
+	} catch (error) {
+		console.error('Failed to edit transaction in database', error)
+		throw error
+	}
+}
+
+export async function deleteTransaction(userId: string, transactionId: string) {
+	try {
+		const transactionToDelete = db.$with('delete').as(
+			db
+				.select({ id: transactionsTable.id })
+				.from(transactionsTable)
+				.innerJoin(
+					accountsTable,
+					eq(transactionsTable.accountId, accountsTable.id)
+				)
+				.where(
+					and(
+						eq(transactionsTable.id, transactionId),
+						eq(accountsTable.userId, userId)
+					)
+				)
+		)
+		const [transaction] = await db
+			.with(transactionToDelete)
+			.delete(transactionsTable)
+			.where(
+				inArray(
+					transactionsTable.id,
+					sql`(select id from ${transactionToDelete})`
+				)
+			)
+			.returning({
+				id: transactionsTable.id
+			})
+		return transaction
+	} catch (error) {
+		console.error('Failed to delete transaction from database', error)
 		throw error
 	}
 }
