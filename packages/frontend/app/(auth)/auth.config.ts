@@ -5,6 +5,7 @@ const protectedRoutes = [
 	'/dashboard',
 	'/accounts',
 	'/categories',
+	'/transactions',
 	'/my-profile'
 ]
 
