@@ -4,6 +4,9 @@ import { Trash } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { date, z } from 'zod'
 
+import AmountInput from '@/components/amount-input'
+import DatePicker from '@/components/date-picker'
+import Select from '@/components/select'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -14,10 +17,7 @@ import {
 	FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-
-import DatePicker from '../date-picker'
-import Select from '../select'
-import { Textarea } from '../ui/textarea'
+import { Textarea } from '@/components/ui/textarea'
 
 const formSchema = z.object({
 	date: z.coerce.date(),
@@ -143,6 +143,24 @@ export default function TransactionForm({
 									{...field}
 									disabled={disabled}
 									placeholder='Añadir un tenedor'
+								/>
+							</FormControl>
+
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='amount'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Cantidad</FormLabel>
+							<FormControl>
+								<AmountInput
+									{...field}
+									disabled={disabled}
+									placeholder='0.00'
 								/>
 							</FormControl>
 
