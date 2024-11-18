@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { convertAmountToMiliunits } from '@/lib/utils'
 
 const formSchema = z.object({
 	date: z.coerce.date(),
@@ -59,6 +60,8 @@ export default function TransactionForm({
 	})
 
 	const handleSubmit = (values: FormValues) => {
+		const amount = parseFloat(values.amount)
+		const amountInMiliunits = convertAmountToMiliunits(amount)
 		console.log({ values })
 	}
 
@@ -188,7 +191,7 @@ export default function TransactionForm({
 					)}
 				/>
 				<Button className='w-full' disabled={disabled}>
-					{id ? 'Guardar cambios' : 'Crear cuenta'}
+					{id ? 'Guardar cambios' : 'Crear transacción'}
 				</Button>
 				{!!id && (
 					<Button
@@ -199,7 +202,7 @@ export default function TransactionForm({
 						variant='outline'
 					>
 						<Trash className='size-4 mr-2' />
-						Eliminar cuenta
+						Eliminar transacción
 					</Button>
 				)}
 			</form>
