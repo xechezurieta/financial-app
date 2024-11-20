@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
 import { getAPIUrl } from '@/lib/utils'
+import { getAccounts } from '@/services/account-api'
 import { Account } from '@/types/types'
 
 export const createAccount = async (name: string) => {
@@ -140,5 +141,20 @@ export const deleteAccount = async (accountId: string) => {
 		return data
 	} catch (error) {
 		return { error: 'Error deleting account' }
+	}
+}
+
+export const getAccountsAction = async () => {
+	const session = await auth()
+	if (!session) throw new Error('No session')
+
+	try {
+		const accounts = await getAccounts()
+		if (!accounts) {
+			throw new Error('Error getting accounts')
+		}
+		return accounts
+	} catch (error) {
+		return { error: 'Error getting accounts' }
 	}
 }

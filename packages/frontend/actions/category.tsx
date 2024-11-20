@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
 import { getAPIUrl } from '@/lib/utils'
+import { getCategories } from '@/services/categories-api'
 import { Category } from '@/types/types'
 
 export const createCategory = async (name: string) => {
@@ -26,6 +27,7 @@ export const createCategory = async (name: string) => {
 		}
 		const data: { category: Category } = await response.json()
 		revalidatePath('/categories')
+		revalidatePath('/transactions')
 		return data
 	} catch (error) {
 		return { error: 'Error creating category' }
@@ -139,5 +141,20 @@ export const deleteCategory = async (categoryId: string) => {
 		return data
 	} catch (error) {
 		return { error: 'Error deleting category' }
+	}
+}
+
+export const getCategoriesAction = async () => {
+	const session = await auth()
+	if (!session) throw new Error('No session')
+
+	try {
+		const categories = await getCategories()
+		if (!categories) {
+			throw new Error('Error getting categories')
+		}
+		return categories
+	} catch (error) {
+		return { error: 'Error getting categories' }
 	}
 }
