@@ -4,11 +4,12 @@ import { getTransactions } from '@/services/transaction-api'
 
 export default async function TransactionsTableWrapper() {
 	const data = await getTransactions({
-		from: undefined,
+		from: '2021-01-01',
 		to: undefined,
-		accountId: '',
-		userId: ''
+		accountId: '4319ff70-d4a4-4858-9bc8-f3fe884fecb3',
+		userId: '1'
 	})
+	console.log({ data })
 	if (!data) return null
 	return <TransactionsTable transactions={data.transactions} />
 }

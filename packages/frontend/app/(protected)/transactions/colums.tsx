@@ -48,7 +48,7 @@ export const columns: ColumnDef<Transaction>[] = [
 		}
 	},
 	{
-		accessorKey: '',
+		accessorKey: 'categoryId',
 		header: ({ column }) => {
 			return (
 				<Button

@@ -7,8 +7,8 @@ export const getTransactions = async ({
 	accountId,
 	userId
 }: {
-	from: Date | undefined
-	to: Date | undefined
+	from: string | undefined
+	to: string | undefined
 	accountId: string
 	userId: string
 }) => {
