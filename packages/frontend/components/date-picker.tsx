@@ -25,7 +25,7 @@ export default function DatePicker({
 }: DatePickerProps) {
 	return (
 		<Popover>
-			<PopoverTrigger>
+			<PopoverTrigger asChild>
 				<Button
 					disabled={disabled}
 					variant='outline'
@@ -41,6 +41,7 @@ export default function DatePicker({
 			</PopoverTrigger>
 			<PopoverContent>
 				<Calendar
+					mode='single'
 					selected={value}
 					onSelect={onChange}
 					disabled={disabled}
