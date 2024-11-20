@@ -2,7 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Trash } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { date, z } from 'zod'
+import { z } from 'zod'
 
 import AmountInput from '@/components/amount-input'
 import DatePicker from '@/components/date-picker'
@@ -34,7 +34,7 @@ type FormValues = z.infer<typeof formSchema>
 type TransactionFormProps = {
 	id?: string
 	defaultValues?: FormValues
-	onSubmit: (values: FormValues) => void
+	onSubmit: (values: FormValues & { userId: string }) => void
 	onDelete?: () => void
 	disabled?: boolean
 	accountOptions: { label: string; value: string }[]
@@ -80,7 +80,6 @@ export default function TransactionForm({
 					name='date'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Fecha</FormLabel>
 							<FormControl>
 								<DatePicker
 									value={field.value}

@@ -10,11 +10,19 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
+import useCreateAccount from '@/hooks/use-create-account'
+import useCreateCategory from '@/hooks/use-create-category'
+import useGetAccounts from '@/hooks/use-get-accounts'
+import useGetCategories from '@/hooks/use-get-categories'
 import { useNewTransaction } from '@/stores/transaction/use-new-transaction'
 
 export default function NewTransactionSheet() {
 	const { isOpen, onClose } = useNewTransaction()
 	const [isCreatingTransaction, createTransactionTransition] = useTransition()
+	const { categories } = useGetCategories()
+	const { onSubmit: onCreateCategory } = useCreateCategory()
+	const { onSubmit: onCreateAccount } = useCreateAccount()
+	const { accounts } = useGetAccounts()
 	const onSubmit = ({
 		userId,
 		date,
@@ -26,20 +34,20 @@ export default function NewTransactionSheet() {
 	}: {
 		userId: string
 		date: Date
-		categoryId: string
+		categoryId?: string | null
 		payee: string
-		amount: number
-		notes: string
+		amount: string
+		notes?: string | null
 		accountId: string
 	}) => {
 		createTransactionTransition(async () => {
 			const transaction = await createTransaction({
 				userId,
 				date,
-				categoryId,
+				categoryId: categoryId ?? '',
 				payee,
-				amount,
-				notes,
+				amount: +amount,
+				notes: notes ?? '',
 				accountId
 			})
 			if (transaction && 'error' in transaction) {
@@ -60,9 +68,15 @@ export default function NewTransactionSheet() {
 				<TransactionForm
 					onSubmit={onSubmit}
 					disabled={isCreatingTransaction}
-					categoryOptions={categoryOptions}
+					categoryOptions={categories.map((category) => ({
+						label: category.name,
+						value: category.id
+					}))}
 					onCreateCategory={onCreateCategory}
-					accountOptions={accountOptions}
+					accountOptions={accounts.map((account) => ({
+						label: account.name,
+						value: account.id
+					}))}
 					onCreateAccount={onCreateAccount}
 				/>
 			</SheetContent>
