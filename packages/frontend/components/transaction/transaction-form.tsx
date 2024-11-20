@@ -62,7 +62,11 @@ export default function TransactionForm({
 	const handleSubmit = (values: FormValues) => {
 		const amount = parseFloat(values.amount)
 		const amountInMiliunits = convertAmountToMiliunits(amount)
-		console.log({ values })
+		onSubmit({
+			...values,
+			userId: '1',
+			amount: amountInMiliunits.toString()
+		})
 	}
 
 	const handleDelete = () => {

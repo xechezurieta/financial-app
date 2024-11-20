@@ -1,17 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { format } from 'date-fns'
 import { ArrowUpDown } from 'lucide-react'
 
-import AccountActions from '@/components/account/account-actions'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Account } from '@/types/types'
-export type Payment = {
-	id: string
-	amount: number
-	status: 'pending' | 'processing' | 'success' | 'failed'
-	email: string
-}
-export const columns: ColumnDef<Account>[] = [
+import { Account, Transaction } from '@/types/types'
+
+export const columns: ColumnDef<Transaction>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -35,21 +30,43 @@ export const columns: ColumnDef<Account>[] = [
 		enableHiding: false
 	},
 	{
-		accessorKey: 'name',
+		accessorKey: 'date',
 		header: ({ column }) => {
 			return (
 				<Button
 					variant='ghost'
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
-					Nombre
+					Fecha
 					<ArrowUpDown className='ml-2 size-4' />
 				</Button>
 			)
+		},
+		cell: ({ row }) => {
+			const date = row.getValue('date') as Date
+			return <span>{format(date, 'yyyy-MM-dd')}</span>
 		}
 	},
 	{
+		accessorKey: '',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Fecha
+					<ArrowUpDown className='ml-2 size-4' />
+				</Button>
+			)
+		},
+		cell: ({ row }) => {
+			const date = row.getValue('date') as Date
+			return <span>{format(date, 'yyyy-MM-dd')}</span>
+		}
+	}
+	/* {
 		id: 'actions',
 		cell: ({ row }) => <AccountActions id={row.original.id} />
-	}
+	}*/
 ]

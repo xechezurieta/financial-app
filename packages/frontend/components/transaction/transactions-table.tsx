@@ -3,29 +3,33 @@ import { Row } from '@tanstack/react-table'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteAccounts } from '@/actions/account'
-import { columns } from '@/app/(protected)/accounts/colums'
+import { deleteTransactions } from '@/actions/transaction'
+import { columns } from '@/app/(protected)/transactions/colums'
 import { DataTable } from '@/components/data-table'
-import { Account } from '@/types/types'
+import { Transaction } from '@/types/types'
 
-export default function AccountsTable({ accounts }: { accounts: Account[] }) {
+export default function TransactionsTable({
+	transactions
+}: {
+	transactions: Transaction[]
+}) {
 	const [isDeleting, startDeleteTransition] = useTransition()
-	const handleDelete = (row: Row<Account>[]) => {
+	const handleDelete = (row: Row<Transaction>[]) => {
 		startDeleteTransition(async () => {
 			const ids = row.map((r) => r.original.id)
-			const data = await deleteAccounts(ids)
+			const data = await deleteTransactions(ids)
 			if (data && 'error' in data) {
-				toast.error('Error eliminando cuentas')
+				toast.error('Error eliminando transacciones')
 				return
 			}
-			toast.success('Cuentas eliminadas')
+			toast.success('Transacciones eliminadas')
 		})
 	}
 	return (
 		<DataTable
 			filterKey='name'
 			columns={columns}
-			data={accounts}
+			data={transactions}
 			onDelete={handleDelete}
 			disabled={isDeleting}
 		/>
