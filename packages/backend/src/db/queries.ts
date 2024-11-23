@@ -355,7 +355,7 @@ export async function createTransaction({
 			.values({
 				id: crypto.randomUUID(),
 				date,
-				categoryId,
+				categoryId: categoryId || null,
 				payee,
 				amount,
 				notes,
@@ -447,7 +447,7 @@ export async function editTransaction({
 			.update(transactionsTable)
 			.set({
 				date,
-				categoryId,
+				categoryId: categoryId || null,
 				payee,
 				amount,
 				notes,
