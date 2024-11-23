@@ -24,6 +24,7 @@ import {
 	getTransactionController,
 	getTransactionsController
 } from './controllers/transaction.controller'
+import { getSummaryController } from './controllers/summary.controller'
 
 const app = express()
 
@@ -60,6 +61,8 @@ app.post('/transactions/transaction', getTransactionController)
 app.patch('/transactions', editTransactionController)
 app.post('/transactions/single-delete', deleteTransactionController)
 
+/* Summary */
+app.get('/summary', getSummaryController)
 app.listen(3001, () => {
 	console.log('Backend listening on port 3001')
 })
