@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
-import { getAPIUrl } from '@/lib/utils'
+import { convertAmountFromMiliunits, getAPIUrl } from '@/lib/utils'
 import { Transaction } from '@/types/types'
 
 export const createTransaction = async ({
@@ -100,7 +100,14 @@ export const getTransaction = async (transactionId: string) => {
 			return { error: 'Error getting transaction' }
 		}
 		const data: { transaction: Transaction } = await response.json()
-		return data
+
+		const parsedData = {
+			transaction: {
+				...data.transaction,
+				amount: convertAmountFromMiliunits(data.transaction.amount)
+			}
+		}
+		return parsedData
 	} catch (error) {
 		return { error: 'Error getting transaction' }
 	}
