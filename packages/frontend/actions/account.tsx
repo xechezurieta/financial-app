@@ -112,6 +112,7 @@ export const editAccountName = async ({
 		}
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
+		revalidatePath('/transactions')
 		return data
 	} catch (error) {
 		return { error: 'Error creating account' }
@@ -138,6 +139,7 @@ export const deleteAccount = async (accountId: string) => {
 		}
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
+		revalidatePath('/transactions')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting account' }

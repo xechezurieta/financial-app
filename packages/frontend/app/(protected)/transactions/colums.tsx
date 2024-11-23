@@ -2,6 +2,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { ArrowUpDown } from 'lucide-react'
 
+import AccountColumn from '@/components/transaction/account-column'
+import CategoryColumn from '@/components/transaction/category-column'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -63,7 +65,13 @@ export const columns: ColumnDef<Transaction>[] = [
 			)
 		},
 		cell: ({ row }) => {
-			return <span>{row.original.category}</span>
+			return (
+				<CategoryColumn
+					id={row.original.id}
+					category={row.original.category}
+					categoryId={row.original.categoryId}
+				/>
+			)
 		}
 	},
 	{
@@ -119,7 +127,12 @@ export const columns: ColumnDef<Transaction>[] = [
 			)
 		},
 		cell: ({ row }) => {
-			return <span>{row.original.account}</span>
+			return (
+				<AccountColumn
+					account={row.original.account || 'Sin cuenta'}
+					accountId={row.original.accountId || ''}
+				/>
+			)
 		}
 	}
 	/* {
