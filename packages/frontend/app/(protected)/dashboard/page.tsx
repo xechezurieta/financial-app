@@ -1,17 +1,15 @@
-'use client'
+/* 'use client' */
 
-import { Button } from '@/components/ui/button'
-import { getAccounts } from '@/services/account-api'
-import { useNewAccount } from '@/stores/account/use-new-account'
+import { getSummary } from '@/features/summary/service'
 
-export default function Dashboard() {
+export default async function Dashboard() {
 	/* const accounts = await getAccounts()
 	console.log(accounts) */
-
-	const { onOpen } = useNewAccount()
-	return (
-		<div>
-			<Button onClick={onOpen}></Button>
-		</div>
-	)
+	const data = await getSummary({
+		from: undefined,
+		to: undefined,
+		accountId: 'account_1'
+	})
+	/* const { onOpen } = useNewAccount() */
+	return <div>{JSON.stringify(data, null, 2)}</div>
 }

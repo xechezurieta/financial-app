@@ -96,12 +96,12 @@ export const getSummaryController = async (
 
 		res.json({
 			data: {
-				remainingAmount: currentPeriod.remaining,
-				remainingChange,
-				incomeAmount: currentPeriod.income,
-				incomeChange,
-				expensesAmount: currentPeriod.expenses,
-				expensesChange,
+				remainingAmount: currentPeriod.remaining || 0,
+				remainingChange: remainingChange || 0,
+				incomeAmount: currentPeriod.income || 0,
+				incomeChange: incomeChange || 0,
+				expensesAmount: currentPeriod.expenses || 0,
+				expensesChange: expensesChange || 0,
 				categories: finalCategories,
 				days
 			}
