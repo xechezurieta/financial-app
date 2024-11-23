@@ -2,7 +2,7 @@ import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteAccount } from '@/actions/account'
+import { deleteTransaction } from '@/actions/transaction'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -11,27 +11,27 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenAccount } from '@/stores/account/use-open-account'
+import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 
-export default function AccountActions({ id }: { id: string }) {
+export default function TransactionActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({
-		title: 'Eliminar cuenta',
-		description: '¿Estás seguro de que quieres eliminar esta cuenta?'
+		title: 'Eliminar transacción',
+		description: '¿Estás seguro de que quieres eliminar esta transacción?'
 	})
-	const { onOpen } = useOpenAccount()
-	const [isDeletingAccount, deleteAccountTransition] = useTransition()
+	const { onOpen } = useOpenTransaction()
+	const [isDeletingTransaction, deleteTransactionTransition] = useTransition()
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteAccountTransition(async () => {
-			const account = await deleteAccount(id)
-			if (account && 'error' in account) {
-				toast.error('Error eliminando la cuenta')
+		deleteTransactionTransition(async () => {
+			const transaction = await deleteTransaction(id)
+			if (transaction && 'error' in transaction) {
+				toast.error('Error eliminando la transacción')
 				return
 			}
-			toast.success('Cuenta eliminada')
+			toast.success('Transacción eliminada')
 		})
 	}
 
@@ -46,14 +46,14 @@ export default function AccountActions({ id }: { id: string }) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end'>
 					<DropdownMenuItem
-						disabled={isDeletingAccount}
+						disabled={isDeletingTransaction}
 						onClick={() => onOpen(id)}
 					>
 						<Edit className='mr-2 size-4' />
 						Editar
 					</DropdownMenuItem>
 
-					<DropdownMenuItem disabled={isDeletingAccount} onClick={onDelete}>
+					<DropdownMenuItem disabled={isDeletingTransaction} onClick={onDelete}>
 						<Trash className='mr-2 size-4' />
 						Eliminar
 					</DropdownMenuItem>

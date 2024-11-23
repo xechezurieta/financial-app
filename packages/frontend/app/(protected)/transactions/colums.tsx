@@ -4,6 +4,7 @@ import { ArrowUpDown } from 'lucide-react'
 
 import AccountColumn from '@/components/transaction/account-column'
 import CategoryColumn from '@/components/transaction/category-column'
+import TransactionActions from '@/components/transaction/transaction-actions'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -134,9 +135,9 @@ export const columns: ColumnDef<Transaction>[] = [
 				/>
 			)
 		}
-	}
-	/* {
+	},
+	{
 		id: 'actions',
-		cell: ({ row }) => <AccountActions id={row.original.id} />
-	}*/
+		cell: ({ row }) => <TransactionActions id={row.original.id} />
+	}
 ]

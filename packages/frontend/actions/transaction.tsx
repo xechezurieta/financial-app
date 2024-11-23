@@ -117,10 +117,10 @@ export const updateTransaction = async ({
 }: {
 	transactionId: string
 	date: Date
-	categoryId: string
+	categoryId: string | null | undefined
 	payee: string
 	amount: number
-	notes: string
+	notes: string | null | undefined
 	accountId: string
 }) => {
 	const session = await auth()

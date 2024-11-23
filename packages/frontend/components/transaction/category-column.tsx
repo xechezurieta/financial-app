@@ -2,6 +2,7 @@ import { TriangleAlert } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { useOpenCategory } from '@/stores/category/use-open-category'
+import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 
 type CategoryColumnProps = {
 	id: string
@@ -10,13 +11,14 @@ type CategoryColumnProps = {
 }
 
 export default function CategoryColumn({
+	id,
 	category,
 	categoryId
 }: CategoryColumnProps) {
 	const { onOpen: onOpenCategory } = useOpenCategory()
+	const { onOpen: onOpenTransaction } = useOpenTransaction()
 	const handleOpenCategory = () => {
-		if (!categoryId) return
-		onOpenCategory(categoryId)
+		categoryId ? onOpenCategory(categoryId) : onOpenTransaction(id)
 	}
 	return (
 		<button
