@@ -2,9 +2,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { ArrowUpDown } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Account, Transaction } from '@/types/types'
+import formatCurrency from '@/lib/utils'
+import { Transaction } from '@/types/types'
 
 export const columns: ColumnDef<Transaction>[] = [
 	{
@@ -48,21 +50,76 @@ export const columns: ColumnDef<Transaction>[] = [
 		}
 	},
 	{
-		accessorKey: 'categoryId',
+		accessorKey: 'category',
 		header: ({ column }) => {
 			return (
 				<Button
 					variant='ghost'
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
-					Fecha
+					Categoría
 					<ArrowUpDown className='ml-2 size-4' />
 				</Button>
 			)
 		},
 		cell: ({ row }) => {
-			const date = row.getValue('date') as Date
-			return <span>{format(date, 'yyyy-MM-dd')}</span>
+			return <span>{row.original.category}</span>
+		}
+	},
+	{
+		accessorKey: 'payee',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Beneficiario
+					<ArrowUpDown className='ml-2 size-4' />
+				</Button>
+			)
+		}
+	},
+	{
+		accessorKey: 'amount',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Cantidad
+					<ArrowUpDown className='ml-2 size-4' />
+				</Button>
+			)
+		},
+		cell: ({ row }) => {
+			const amount = parseFloat(row.getValue('amount'))
+			return (
+				<Badge
+					variant={amount < 0 ? 'destructive' : 'primary'}
+					className='text-xs font-medium px-3 py-2'
+				>
+					{formatCurrency(amount)}
+				</Badge>
+			)
+		}
+	},
+	{
+		accessorKey: 'account',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Cuenta
+					<ArrowUpDown className='ml-2 size-4' />
+				</Button>
+			)
+		},
+		cell: ({ row }) => {
+			return <span>{row.original.account}</span>
 		}
 	}
 	/* {

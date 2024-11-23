@@ -1,4 +1,4 @@
-import { getAPIUrl } from '@/lib/utils'
+import { convertAmountFromMiliunits, getAPIUrl } from '@/lib/utils'
 import { Transaction } from '@/types/types'
 
 export const getTransactions = async ({
@@ -30,7 +30,14 @@ export const getTransactions = async ({
 			return null
 		}
 		const data: { transactions: Transaction[] } = await response.json()
-		return data
+		const parsedData = {
+			transactions: data.transactions.map((transaction) => ({
+				...transaction,
+				amount: convertAmountFromMiliunits(transaction.amount)
+			}))
+		}
+
+		return parsedData
 	} catch (error) {
 		return null
 	}

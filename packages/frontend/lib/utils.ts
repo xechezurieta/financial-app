@@ -16,3 +16,10 @@ export function convertAmountToMiliunits(amount: number) {
 export function convertAmountFromMiliunits(amount: number) {
 	return amount / 1000
 }
+
+export default function formatCurrency(amount: number) {
+	return Intl.NumberFormat('es-ES', {
+		style: 'currency',
+		currency: 'EUR'
+	}).format(amount)
+}
