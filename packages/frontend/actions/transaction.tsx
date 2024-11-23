@@ -24,8 +24,8 @@ export const createTransaction = async ({
 	accountId: string
 }) => {
 	const session = await auth()
-	if (!session) return
-	const apiUrl = getAPIUrl('/transactions')
+	if (!session) return { error: 'Error creating transaction' }
+	const apiUrl = getAPIUrl('/transactions/create')
 	try {
 		const response = await fetch(apiUrl, {
 			method: 'POST',
@@ -42,10 +42,12 @@ export const createTransaction = async ({
 				accountId
 			})
 		})
+		console.log({ response })
 		if (!response.ok) {
 			return { error: 'Error creating transaction' }
 		}
 		const data: { transaction: Transaction } = await response.json()
+		console.log('QUE LLEGA ', { data })
 		revalidatePath('/transactions')
 		return data
 	} catch (error) {
