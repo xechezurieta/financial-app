@@ -45,3 +45,7 @@ export function fillMissingDays({
 
 	return transactionsByDay
 }
+
+export function convertAmountToMiliunits(amount: number) {
+	return Math.round(amount * 1000)
+}
