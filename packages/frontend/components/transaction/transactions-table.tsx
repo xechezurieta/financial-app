@@ -27,7 +27,7 @@ export default function TransactionsTable({
 	}
 	return (
 		<DataTable
-			filterKey='name'
+			filterKey='category'
 			columns={columns}
 			data={transactions}
 			onDelete={handleDelete}
