@@ -9,6 +9,7 @@ export default async function DataCharts({
 }) {
 	const to = params?.to || undefined
 	const from = params?.from || undefined
+
 	const data = await getSummary({
 		from,
 		to,
