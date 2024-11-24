@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react'
 
+import DataCharts from '@/components/data-charts'
 import DataGrid from '@/components/data-grid'
 import DataGridSkeleton from '@/components/data-grid-skeleton'
 
@@ -13,6 +14,7 @@ export default async function Dashboard(props: { params: SearchParams }) {
 			<Suspense fallback={<DataGridSkeleton />}>
 				<DataGrid params={params} />
 			</Suspense>
+			<DataCharts params={params} />
 		</div>
 	)
 }
