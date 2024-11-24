@@ -36,7 +36,7 @@ export const getSummary = async ({
 		const data: SummaryAnswer = await response.json()
 
 		const parsedData = {
-			...data,
+			...data.data,
 			incomeAmount: convertAmountFromMiliunits(data.data.incomeAmount),
 			expensesAmount: convertAmountFromMiliunits(data.data.expensesAmount),
 			remainingAmount: convertAmountFromMiliunits(data.data.remainingAmount),

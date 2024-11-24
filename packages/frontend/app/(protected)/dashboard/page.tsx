@@ -1,15 +1,18 @@
 /* 'use client' */
 
-import { getSummary } from '@/features/summary/service'
+import { Suspense } from 'react'
 
-export default async function Dashboard() {
-	/* const accounts = await getAccounts()
-	console.log(accounts) */
-	const data = await getSummary({
-		from: undefined,
-		to: undefined,
-		accountId: 'account_1'
-	})
-	/* const { onOpen } = useNewAccount() */
-	return <div>{JSON.stringify(data, null, 2)}</div>
+import DataGrid from '@/components/data-grid'
+import DataGridSkeleton from '@/components/data-grid-skeleton'
+
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+export default async function Dashboard(props: { params: SearchParams }) {
+	const params = await props.params
+	return (
+		<div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
+			<Suspense fallback={<DataGridSkeleton />}>
+				<DataGrid params={params} />
+			</Suspense>
+		</div>
+	)
 }
