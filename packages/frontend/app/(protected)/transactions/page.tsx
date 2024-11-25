@@ -5,7 +5,11 @@ import NewTransaction from '@/components/transaction/new-transaction'
 import TransactionsTableWrapper from '@/components/transaction/transactions-table-wrapper'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function TransactionsPage() {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+export default async function TransactionsPage(props: {
+	searchParams: SearchParams
+}) {
+	const params = await props.searchParams
 	return (
 		<div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
 			<Card className='border-none drop-shadow-sm'>
@@ -17,7 +21,7 @@ export default function TransactionsPage() {
 				</CardHeader>
 				<CardContent>
 					<Suspense fallback={<DataTableLoader />}>
-						<TransactionsTableWrapper />
+						<TransactionsTableWrapper params={params} />
 					</Suspense>
 				</CardContent>
 			</Card>

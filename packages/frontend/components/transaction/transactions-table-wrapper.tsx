@@ -2,11 +2,18 @@ import AccountsTable from '@/components/account/accounts-table'
 import TransactionsTable from '@/components/transaction/transactions-table'
 import { getTransactions } from '@/services/transaction-api'
 
-export default async function TransactionsTableWrapper() {
+export default async function TransactionsTableWrapper({
+	params
+}: {
+	params: { from?: string; to?: string; accountId?: string }
+}) {
+	const to = params?.to || undefined
+	const from = params?.from || undefined
+	const accountId = params?.accountId || undefined
 	const data = await getTransactions({
-		from: '2021-01-01',
-		to: undefined,
-		accountId: '4319ff70-d4a4-4858-9bc8-f3fe884fecb3',
+		from,
+		to,
+		accountId: accountId || '',
 		userId: '1'
 	})
 	console.log({ data })
