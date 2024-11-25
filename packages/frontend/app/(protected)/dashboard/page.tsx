@@ -8,8 +8,8 @@ import DataGrid from '@/components/data-grid'
 import DataGridSkeleton from '@/components/data-grid-skeleton'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-export default async function Dashboard(props: { params: SearchParams }) {
-	const params = await props.params
+export default async function Dashboard(props: { searchParams: SearchParams }) {
+	const params = await props.searchParams
 	console.log('params: ', Object.entries(params))
 
 	return (
@@ -18,7 +18,7 @@ export default async function Dashboard(props: { params: SearchParams }) {
 				<DataGrid key={params.toString()} params={params} />
 			</Suspense>
 			<Suspense fallback={<DataChartsSkeleton />}>
-				<DataCharts params={params} />
+				<DataCharts key={params.toString()} params={params} />
 			</Suspense>
 		</div>
 	)

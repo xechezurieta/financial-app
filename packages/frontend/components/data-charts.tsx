@@ -5,15 +5,16 @@ import { getSummary } from '@/features/summary/service'
 export default async function DataCharts({
 	params
 }: {
-	params: { from?: string; to?: string }
+	params: { from?: string; to?: string; accountId?: string }
 }) {
 	const to = params?.to || undefined
 	const from = params?.from || undefined
+	const accountId = params?.accountId || undefined
 
 	const data = await getSummary({
 		from,
 		to,
-		accountId: 'account_1'
+		accountId: accountId || ''
 	})
 	return (
 		<div className='grid grid-cols-1 lg-grid-cols-6 gap-8'>
