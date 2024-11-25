@@ -28,6 +28,8 @@ export const createAccount = async (name: string) => {
 		}
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
+		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error creating account' }
@@ -54,6 +56,8 @@ export const deleteAccounts = async (accountIds: Array<string>) => {
 		}
 		const data: { deletedAccounts: Array<string> } = await response.json()
 		revalidatePath('/accounts')
+		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting accounts' }
@@ -113,6 +117,7 @@ export const editAccountName = async ({
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error creating account' }
@@ -140,6 +145,7 @@ export const deleteAccount = async (accountId: string) => {
 		const data: { account: Account } = await response.json()
 		revalidatePath('/accounts')
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting account' }

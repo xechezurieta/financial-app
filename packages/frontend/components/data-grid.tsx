@@ -8,16 +8,17 @@ import { formatDateRange } from '@/lib/utils'
 export default async function DataGrid({
 	params
 }: {
-	params: { from?: string; to?: string }
+	params: { from?: string; to?: string; accountId?: string }
 }) {
 	const to = params?.to || undefined
 	const from = params?.from || undefined
+	const accountId = params?.accountId || undefined
 	const data = await getSummary({
 		from,
 		to,
-		accountId: 'account_1'
+		accountId: accountId || ''
 	})
-
+	console.log('DATAAAA: ', { to, from, accountId })
 	const dateRangeLabel = formatDateRange({ from, to })
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-8 pb-2 mb-8'>

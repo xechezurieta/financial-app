@@ -1,3 +1,4 @@
+import Filters from '@/components/filters'
 import AvatarMenu from '@/components/header/avatar-menu'
 import Logo from '@/components/header/logo'
 import Navigation from '@/components/header/navigation'
@@ -15,6 +16,7 @@ export default function Header() {
 					<AvatarMenu />
 				</div>
 				<Welcome />
+				<Filters />
 			</div>
 		</header>
 	)

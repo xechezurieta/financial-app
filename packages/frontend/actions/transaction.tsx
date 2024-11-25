@@ -49,6 +49,7 @@ export const createTransaction = async ({
 		const data: { transaction: Transaction } = await response.json()
 		console.log('QUE LLEGA ', { data })
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error creating transaction' }
@@ -75,6 +76,7 @@ export const deleteTransactions = async (transactionIds: Array<string>) => {
 		}
 		const data: { deletedTransactions: Array<string> } = await response.json()
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting transactions' }
@@ -155,6 +157,7 @@ export const updateTransaction = async ({
 		}
 		const data: { transaction: Transaction } = await response.json()
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error updating transaction' }
@@ -181,6 +184,7 @@ export const deleteTransaction = async (transactionId: string) => {
 		}
 		const data: { deletedTransaction: string } = await response.json()
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting transaction' }

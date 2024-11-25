@@ -54,6 +54,7 @@ export const deleteCategories = async (categoryIds: Array<string>) => {
 		}
 		const data: { deletedCategories: Array<string> } = await response.json()
 		revalidatePath('/categories')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting categories' }
@@ -113,6 +114,7 @@ export const editCategoryName = async ({
 		const data: { category: Category } = await response.json()
 		revalidatePath('/categories')
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error updating category' }
@@ -140,6 +142,7 @@ export const deleteCategory = async (categoryId: string) => {
 		const data: { category: Category } = await response.json()
 		revalidatePath('/categories')
 		revalidatePath('/transactions')
+		revalidatePath('/summary')
 		return data
 	} catch (error) {
 		return { error: 'Error deleting category' }
