@@ -4,8 +4,8 @@ import { useTransition } from 'react'
 import { toast } from 'sonner'
 
 import { deleteAccounts } from '@/actions/account'
-import { columns } from '@/app/(protected)/accounts/colums'
 import { DataTable } from '@/components/data-table'
+import { columns } from '@/features/accounts/components/colums'
 import { Account } from '@/types/types'
 
 export default function AccountsTable({ accounts }: { accounts: Account[] }) {

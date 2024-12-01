@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenAccount } from '@/stores/account/use-open-account'
+import { useOpenAccount } from '@/features/accounts/store/use-open-account'
 
 export default function AccountActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({

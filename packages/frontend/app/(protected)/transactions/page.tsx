@@ -5,6 +5,8 @@ import NewTransaction from '@/components/transaction/new-transaction'
 import TransactionsTableWrapper from '@/components/transaction/transactions-table-wrapper'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+export const dynamic = 'force-dynamic'
+
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function TransactionsPage(props: {
 	searchParams: SearchParams

@@ -1,4 +1,3 @@
-import AccountsTable from '@/components/account/accounts-table'
 import TransactionsTable from '@/components/transaction/transactions-table'
 import { getTransactions } from '@/services/transaction-api'
 

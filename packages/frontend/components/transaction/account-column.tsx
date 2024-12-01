@@ -1,5 +1,4 @@
-import { cn } from '@/lib/utils'
-import { useOpenAccount } from '@/stores/account/use-open-account'
+import { useOpenAccount } from '@/features/accounts/store/use-open-account'
 
 type AccountColumnProps = {
 	account: string

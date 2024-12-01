@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
 import { getAPIUrl } from '@/lib/utils'
-import { getAccounts } from '@/services/account-api'
+import { getAccounts } from '@/features/accounts/account-api'
 import { Account } from '@/types/types'
 
 export const createAccount = async (name: string) => {

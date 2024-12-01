@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 
-import AccountsTableWrapper from '@/components/account/accounts-table-wrapper'
-import NewAccount from '@/components/account/new-account'
 import DataTableLoader from '@/components/data-table-loader'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import AccountsTableWrapper from '@/features/accounts/components/accounts-table-wrapper'
+import NewAccount from '@/features/accounts/components/new-account'
 
 export default function AccountsPage() {
 	return (

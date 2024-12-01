@@ -1,5 +1,5 @@
-import AccountsTable from '@/components/account/accounts-table'
-import { getAccounts } from '@/services/account-api'
+import { getAccounts } from '@/features/accounts/account-api'
+import AccountsTable from '@/features/accounts/components/accounts-table'
 
 export default async function AccountsTableWrapper() {
 	const data = await getAccounts()

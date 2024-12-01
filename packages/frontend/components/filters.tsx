@@ -1,11 +1,17 @@
+import { Suspense } from 'react'
+
 import AccountFilter from '@/components/account-filter'
 import DateFilter from '@/components/date-filter'
 
 export default function Filters() {
 	return (
 		<div className='flex flex-col lg:flex-row items-center gap-y-2 lg:gap-y-0 lg:gap-x-2'>
-			<AccountFilter />
-			<DateFilter />
+			<Suspense>
+				<AccountFilter />
+			</Suspense>
+			<Suspense>
+				<DateFilter />
+			</Suspense>
 		</div>
 	)
 }

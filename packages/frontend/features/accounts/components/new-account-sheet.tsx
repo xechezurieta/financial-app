@@ -2,7 +2,6 @@ import { useTransition } from 'react'
 import { toast } from 'sonner'
 
 import { createAccount } from '@/actions/account'
-import AccountForm from '@/components/account/account-form'
 import {
 	Sheet,
 	SheetContent,
@@ -10,7 +9,8 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import { useNewAccount } from '@/stores/account/use-new-account'
+import AccountForm from '@/features/accounts/components/account-form'
+import { useNewAccount } from '@/features/accounts/store/use-new-account'
 
 export default function NewAccountSheet() {
 	const { isOpen, onClose } = useNewAccount()
