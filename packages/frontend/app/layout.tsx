@@ -30,16 +30,16 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<TanstackProvider>
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				<TanstackProvider>
 					<SheetProvider />
 					{children}
 
 					<Toaster richColors />
-				</body>
-			</TanstackProvider>
+				</TanstackProvider>
+			</body>
 		</html>
 	)
 }
