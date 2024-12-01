@@ -1,7 +1,6 @@
 import { NextAuthConfig } from 'next-auth'
 
 const protectedRoutes = [
-	'/',
 	'/dashboard',
 	'/accounts',
 	'/categories',
@@ -12,37 +11,41 @@ const protectedRoutes = [
 export const authConfig = {
 	pages: {
 		signIn: '/login',
-		newUser: '/'
+		newUser: '/register',
+		error: '/login' // Add error page
 	},
-	providers: [
-		// added later in auth.ts since it requires bcrypt which is only compatible with Node.js
-		// while this file is also used in non-Node.js environments
-	],
+	session: {
+		strategy: 'jwt',
+		maxAge: 8 * 60 * 60 // 8 hours
+	},
+	providers: [],
 	callbacks: {
 		authorized({ auth, request: { nextUrl } }) {
-			let isLoggedIn = !!auth?.user
-			let isOnProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
-			let isOnRegister = nextUrl.pathname.startsWith('/register')
-			let isOnLogin = nextUrl.pathname.startsWith('/login')
+			const isLoggedIn = !!auth?.user
+			const isOnProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
+			const isOnAuthPage =
+				nextUrl.pathname.startsWith('/login') ||
+				nextUrl.pathname.startsWith('/register')
 
-			if (isLoggedIn && (isOnLogin || isOnRegister)) {
-				return Response.redirect(new URL('/dashboard', nextUrl))
+			if (!isLoggedIn && isOnProtectedRoute) {
+				return false // Redirect to login
 			}
 
-			if (isOnRegister || isOnLogin) {
-				return true // Always allow access to register and login pages
-			}
-
-			if (isOnProtectedRoute) {
-				if (isLoggedIn) return true
-				return false // Redirect unauthenticated users to login page
-			}
-
-			if (isLoggedIn) {
+			if (isLoggedIn && isOnAuthPage) {
 				return Response.redirect(new URL('/dashboard', nextUrl))
 			}
 
 			return true
+		},
+		jwt: async ({ token, user }) => {
+			if (user) {
+				token.user = user
+			}
+			return token
+		},
+		session: async ({ session, token }) => {
+			session.user = token.user as any
+			return session
 		}
 	}
 } satisfies NextAuthConfig
