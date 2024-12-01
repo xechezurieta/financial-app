@@ -1,4 +1,5 @@
 import Header from '@/components/header/header'
+import SheetProvider from '@/providers/sheet-provider'
 
 export default function ProtectedLayout({
 	children
@@ -8,7 +9,10 @@ export default function ProtectedLayout({
 	return (
 		<>
 			<Header />
-			<main className='px-3 lg:px-14'>{children}</main>
+			<main className='px-3 lg:px-14'>
+				<SheetProvider />
+				{children}
+			</main>
 		</>
 	)
 }
