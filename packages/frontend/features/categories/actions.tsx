@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
+import { getCategories } from '@/features/categories/categories-api'
 import { getAPIUrl } from '@/lib/utils'
-import { getCategories } from '@/services/categories-api'
 import { Category } from '@/types/types'
 
 export const createCategory = async (name: string) => {

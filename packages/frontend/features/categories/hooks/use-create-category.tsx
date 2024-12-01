@@ -1,7 +1,7 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createCategory } from '@/actions/category'
+import { createCategory } from '@/features/categories/actions'
 
 export default function useCreateCategory() {
 	const [isCreatingCategory, createCategoryTransition] = useTransition()

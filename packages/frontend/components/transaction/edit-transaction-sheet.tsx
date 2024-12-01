@@ -15,11 +15,11 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
+import useCreateAccount from '@/features/accounts/hooks/use-create-account'
+import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
+import useCreateCategory from '@/features/categories/hooks/use-create-category'
+import useGetCategories from '@/features/categories/hooks/use-get-categories'
 import { useConfirm } from '@/hooks/use-confirm'
-import useCreateAccount from '@/hooks/use-create-account'
-import useCreateCategory from '@/hooks/use-create-category'
-import useGetAccounts from '@/hooks/use-get-accounts'
-import useGetCategories from '@/hooks/use-get-categories'
 import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 import { Transaction } from '@/types/types'
 
@@ -37,7 +37,7 @@ export default function EditTransactionSheet() {
 	const { categories } = useGetCategories()
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
-	const { accounts } = useGetAccounts()
+	const { data } = useGetAccounts()
 	useEffect(() => {
 		if (id) {
 			setIsLoading(true)
@@ -142,10 +142,12 @@ export default function EditTransactionSheet() {
 								value: category.id
 							}))}
 							onCreateCategory={onCreateCategory}
-							accountOptions={accounts.map((account) => ({
-								label: account.name,
-								value: account.id
-							}))}
+							accountOptions={
+								data?.accounts.map((account) => ({
+									label: account.name,
+									value: account.id
+								})) || []
+							}
 							onCreateAccount={onCreateAccount}
 						/>
 					)}

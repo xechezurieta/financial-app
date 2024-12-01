@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
-import CategoryActions from '@/components/category/category-actions'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import CategoryActions from '@/features/categories/components/category-actions'
 import { Account } from '@/types/types'
 
 export const columns: ColumnDef<Account>[] = [

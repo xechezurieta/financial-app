@@ -10,10 +10,10 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import useCreateAccount from '@/hooks/use-create-account'
-import useCreateCategory from '@/hooks/use-create-category'
-import useGetAccounts from '@/hooks/use-get-accounts'
-import useGetCategories from '@/hooks/use-get-categories'
+import useCreateAccount from '@/features/accounts/hooks/use-create-account'
+import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
+import useCreateCategory from '@/features/categories/hooks/use-create-category'
+import useGetCategories from '@/features/categories/hooks/use-get-categories'
 import { useNewTransaction } from '@/stores/transaction/use-new-transaction'
 
 export default function NewTransactionSheet() {
@@ -22,7 +22,7 @@ export default function NewTransactionSheet() {
 	const { categories } = useGetCategories()
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
-	const { accounts } = useGetAccounts()
+	const { data } = useGetAccounts()
 	const onSubmit = ({
 		userId,
 		date,
@@ -73,10 +73,12 @@ export default function NewTransactionSheet() {
 						value: category.id
 					}))}
 					onCreateCategory={onCreateCategory}
-					accountOptions={accounts.map((account) => ({
-						label: account.name,
-						value: account.id
-					}))}
+					accountOptions={
+						data?.accounts.map((account) => ({
+							label: account.name,
+							value: account.id
+						})) || []
+					}
 					onCreateAccount={onCreateAccount}
 				/>
 			</SheetContent>

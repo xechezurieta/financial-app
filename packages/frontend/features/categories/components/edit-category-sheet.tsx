@@ -3,20 +3,20 @@ import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
 import {
-	deleteCategory,
-	editCategoryName,
-	getCategory
-} from '@/actions/category'
-import CategoryForm from '@/components/category/category-form'
-import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
+import {
+	deleteCategory,
+	editCategoryName,
+	getCategory
+} from '@/features/categories/actions'
+import CategoryForm from '@/features/categories/components/category-form'
+import { useOpenCategory } from '@/features/categories/stores/use-open-category'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenCategory } from '@/stores/category/use-open-category'
 import { Category } from '@/types/types'
 
 export default function EditCategorySheet() {

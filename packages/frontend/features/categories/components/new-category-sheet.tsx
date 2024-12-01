@@ -1,8 +1,6 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createCategory } from '@/actions/category'
-import CategoryForm from '@/components/category/category-form'
 import {
 	Sheet,
 	SheetContent,
@@ -10,7 +8,9 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import { useNewCategory } from '@/stores/category/use-new-category'
+import { createCategory } from '@/features/categories/actions'
+import CategoryForm from '@/features/categories/components/category-form'
+import { useNewCategory } from '@/features/categories/stores/use-new-category'
 
 export default function NewCategorySheet() {
 	const { isOpen, onClose } = useNewCategory()

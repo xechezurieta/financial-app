@@ -3,7 +3,7 @@
 import { Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { useNewCategory } from '@/stores/category/use-new-category'
+import { useNewCategory } from '@/features/categories/stores/use-new-category'
 
 export default function NewCategory() {
 	const newCategory = useNewCategory()

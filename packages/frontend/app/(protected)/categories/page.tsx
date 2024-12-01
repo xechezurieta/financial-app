@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 
-import CategoriesTableWrapper from '@/components/category/categories-table-wrapper'
-import NewCategory from '@/components/category/new-category'
 import DataTableLoader from '@/components/data-table-loader'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import CategoriesTableWrapper from '@/features/categories/components/categories-table-wrapper'
+import NewCategory from '@/features/categories/components/new-category'
 
 export default function CategoriesPage() {
 	return (

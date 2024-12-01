@@ -1,7 +1,7 @@
 import { TriangleAlert } from 'lucide-react'
 
+import { useOpenCategory } from '@/features/categories/stores/use-open-category'
 import { cn } from '@/lib/utils'
-import { useOpenCategory } from '@/stores/category/use-open-category'
 import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 
 type CategoryColumnProps = {

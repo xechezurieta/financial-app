@@ -1,5 +1,5 @@
-import CategoriesTable from '@/components/category/categories-table'
-import { getCategories } from '@/services/categories-api'
+import { getCategories } from '@/features/categories/categories-api'
+import CategoriesTable from '@/features/categories/components/categories-table'
 
 export default async function CategoriesTableWrapper() {
 	const data = await getCategories()

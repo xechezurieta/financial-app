@@ -2,7 +2,6 @@ import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteCategory } from '@/actions/category'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -10,8 +9,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { deleteCategory } from '@/features/categories/actions'
+import { useOpenCategory } from '@/features/categories/stores/use-open-category'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenCategory } from '@/stores/category/use-open-category'
 
 export default function CategoryActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({

@@ -1,6 +1,6 @@
 import { useEffect, useState, useTransition } from 'react'
 
-import { getCategoriesAction } from '@/actions/category'
+import { getCategoriesAction } from '@/features/categories/actions'
 import { Category } from '@/types/types'
 
 export default function useGetCategories() {
