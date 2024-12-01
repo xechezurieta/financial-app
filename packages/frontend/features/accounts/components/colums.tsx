@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
-import AccountActions from '@/features/accounts/components/account-actions'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import AccountActions from '@/features/accounts/components/account-actions'
 import { Account } from '@/types/types'
 export type Payment = {
 	id: string

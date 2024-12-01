@@ -1,7 +1,7 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createAccount } from '@/actions/account'
+import { createAccount } from '@/features/accounts/actions'
 
 export default function useCreateAccount() {
 	const [isCreatingAccount, createAccountTransition] = useTransition()

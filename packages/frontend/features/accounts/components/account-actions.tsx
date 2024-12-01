@@ -2,7 +2,6 @@ import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteAccount } from '@/actions/account'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -10,8 +9,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { useConfirm } from '@/hooks/use-confirm'
+import { deleteAccount } from '@/features/accounts/actions'
 import { useOpenAccount } from '@/features/accounts/store/use-open-account'
+import { useConfirm } from '@/hooks/use-confirm'
 
 export default function AccountActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({

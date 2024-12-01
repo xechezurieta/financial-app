@@ -1,6 +1,6 @@
 import { useEffect, useState, useTransition } from 'react'
 
-import { getAccountsAction } from '@/actions/account'
+import { getAccountsAction } from '@/features/accounts/actions'
 import { Account } from '@/types/types'
 
 export default function useGetAccounts() {

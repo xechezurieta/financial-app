@@ -2,7 +2,6 @@ import { Loader2 } from 'lucide-react'
 import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { editAccountName, getAccount, deleteAccount } from '@/actions/account'
 import {
 	Sheet,
 	SheetContent,
@@ -10,6 +9,11 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
+import {
+	editAccountName,
+	getAccount,
+	deleteAccount
+} from '@/features/accounts/actions'
 import AccountForm from '@/features/accounts/components/account-form'
 import { useOpenAccount } from '@/features/accounts/store/use-open-account'
 import { useConfirm } from '@/hooks/use-confirm'

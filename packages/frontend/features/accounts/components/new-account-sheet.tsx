@@ -1,7 +1,6 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createAccount } from '@/actions/account'
 import {
 	Sheet,
 	SheetContent,
@@ -9,6 +8,7 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
+import { createAccount } from '@/features/accounts/actions'
 import AccountForm from '@/features/accounts/components/account-form'
 import { useNewAccount } from '@/features/accounts/store/use-new-account'
 

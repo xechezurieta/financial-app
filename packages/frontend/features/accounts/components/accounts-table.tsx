@@ -3,8 +3,8 @@ import { Row } from '@tanstack/react-table'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteAccounts } from '@/actions/account'
 import { DataTable } from '@/components/data-table'
+import { deleteAccounts } from '@/features/accounts/actions'
 import { columns } from '@/features/accounts/components/colums'
 import { Account } from '@/types/types'
 
