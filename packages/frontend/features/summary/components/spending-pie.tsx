@@ -2,9 +2,6 @@
 import { FileSearch, PieChart, Radar, Target } from 'lucide-react'
 import { useState } from 'react'
 
-import PieVariant from '@/components/pie-variant'
-import RadarVariant from '@/components/radar-variant'
-import RadialVariant from '@/components/radial-variant'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
 	Select,
@@ -13,6 +10,9 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
+import PieVariant from '@/features/summary/components/pie-variant'
+import RadarVariant from '@/features/summary/components/radar-variant'
+import RadialVariant from '@/features/summary/components/radial-variant'
 
 type SpendingPieProps = {
 	data?: {

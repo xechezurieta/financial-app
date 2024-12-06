@@ -1,25 +1,18 @@
 'use client'
-import {
-	AreaChart,
-	BarChart,
-	BarChart3,
-	FileSearch,
-	LineChart
-} from 'lucide-react'
+import { AreaChart, BarChart3, FileSearch, LineChart } from 'lucide-react'
 import { useState } from 'react'
 
-import { AreaVariant } from '@/components/area-variant'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
-import { BarVariant } from './bar-variant'
-import { LineVariant } from './line-variant'
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue
-} from './ui/select'
+} from '@/components/ui/select'
+import { AreaVariant } from '@/features/summary/components/area-variant'
+import { BarVariant } from '@/features/summary/components/bar-variant'
+import { LineVariant } from '@/features/summary/components/line-variant'
 
 type ChartProps = {
 	data?: {

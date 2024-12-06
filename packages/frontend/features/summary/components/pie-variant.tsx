@@ -1,40 +1,25 @@
 import {
-	RadialBar,
-	RadialBarChart,
+	Cell,
 	Legend,
+	Pie,
+	PieChart,
 	ResponsiveContainer,
 	Tooltip
 } from 'recharts'
 
-import { ChartCategoryTooltip } from '@/components/chart-category-tooltip'
-import formatCurrency from '@/lib/utils'
+import { ChartCategoryTooltip } from '@/features/summary/components/chart-category-tooltip'
+import { formatPercentage } from '@/lib/utils'
 
 const COLORS = ['#0062ff', '#12c6ff', '#ff647f', '#ff9354']
 
-type RadialVariantProps = {
+type PieVariantProps = {
 	data: { name: string; value: number }[]
 }
 
-export default function RadialVariant({ data }: RadialVariantProps) {
+export default function PieVariant({ data }: PieVariantProps) {
 	return (
 		<ResponsiveContainer width='100%' height={300}>
-			<RadialBarChart
-				cx='50%'
-				cy='30%'
-				barSize={10}
-				innerRadius='90%'
-				outerRadius='40%'
-				data={data.map((item, index) => ({
-					...item,
-					fill: COLORS[index % COLORS.length]
-				}))}
-			>
-				<RadialBar
-					label={{ fill: '#fff', position: 'insideStart', fontSize: '12px' }}
-					background
-					dataKey='value'
-				/>
-
+			<PieChart>
 				<Legend
 					layout='horizontal'
 					verticalAlign='bottom'
@@ -57,7 +42,7 @@ export default function RadialVariant({ data }: RadialVariantProps) {
 												{entry.value}
 											</span>
 											<span className='text-sm'>
-												{formatCurrency(entry.payload.value)}
+												{formatPercentage(entry.payload.percent * 100)}
 											</span>
 										</div>
 									</li>
@@ -67,7 +52,22 @@ export default function RadialVariant({ data }: RadialVariantProps) {
 					}}
 				/>
 				<Tooltip content={<ChartCategoryTooltip />} />
-			</RadialBarChart>
+				<Pie
+					data={data}
+					cx='50%'
+					cy='50%'
+					outerRadius={90}
+					innerRadius={60}
+					paddingAngle={2}
+					fill='#8884d8'
+					dataKey='value'
+					labelLine={false}
+				>
+					{data.map((entry, index) => (
+						<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+					))}
+				</Pie>
+			</PieChart>
 		</ResponsiveContainer>
 	)
 }

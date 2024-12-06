@@ -2,10 +2,10 @@
 
 import { Suspense } from 'react'
 
-import DataCharts from '@/components/data-charts'
-import DataChartsSkeleton from '@/components/data-charts-skeleton'
-import DataGrid from '@/components/data-grid'
-import DataGridSkeleton from '@/components/data-grid-skeleton'
+import DataCharts from '@/features/summary/components/data-charts'
+import DataChartsSkeleton from '@/features/summary/components/data-charts-skeleton'
+import DataGrid from '@/features/summary/components/data-grid'
+import DataGridSkeleton from '@/features/summary/components/data-grid-skeleton'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Dashboard(props: { searchParams: SearchParams }) {

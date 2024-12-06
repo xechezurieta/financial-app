@@ -1,7 +1,7 @@
 import { FaPiggyBank } from 'react-icons/fa'
 import { FaArrowTrendUp, FaArrowTrendDown } from 'react-icons/fa6'
 
-import DataCard from '@/components/data-card'
+import DataCard from '@/features/summary/components/data-card'
 import { getSummary } from '@/features/summary/service'
 import { formatDateRange } from '@/lib/utils'
 

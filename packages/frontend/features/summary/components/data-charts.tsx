@@ -1,5 +1,5 @@
-import Chart from '@/components/chart'
-import SpendingPie from '@/components/spending-pie'
+import Chart from '@/features/summary/components/chart'
+import SpendingPie from '@/features/summary/components/spending-pie'
 import { getSummary } from '@/features/summary/service'
 
 export default async function DataCharts({

@@ -9,7 +9,7 @@ import {
 	XAxis
 } from 'recharts'
 
-import { ChartCustomTooltip } from '@/components/chart-custom-tooltip'
+import { ChartCustomTooltip } from '@/features/summary/components/chart-custom-tooltip'
 import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 
 const chartConfig = {

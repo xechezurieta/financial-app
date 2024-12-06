@@ -1,7 +1,7 @@
 import { FaPiggyBank } from 'react-icons/fa'
 import { FaArrowTrendDown, FaArrowTrendUp } from 'react-icons/fa6'
 
-import { DataCardSkeleton } from '@/components/data-card'
+import { DataCardSkeleton } from '@/features/summary/components/data-card'
 
 export default function DataGridSkeleton() {
 	return (

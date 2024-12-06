@@ -1,5 +1,5 @@
 'use client'
-import { useCountUp } from '@/hooks/use-count-up'
+import { useCountUp } from '@/features/summary/hooks/use-count-up'
 import formatCurrency from '@/lib/utils'
 
 interface CountUpProps {

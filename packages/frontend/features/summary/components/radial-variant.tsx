@@ -1,25 +1,40 @@
 import {
-	Cell,
+	RadialBar,
+	RadialBarChart,
 	Legend,
-	Pie,
-	PieChart,
 	ResponsiveContainer,
 	Tooltip
 } from 'recharts'
 
-import { ChartCategoryTooltip } from '@/components/chart-category-tooltip'
-import { formatPercentage } from '@/lib/utils'
+import { ChartCategoryTooltip } from '@/features/summary/components/chart-category-tooltip'
+import formatCurrency from '@/lib/utils'
 
 const COLORS = ['#0062ff', '#12c6ff', '#ff647f', '#ff9354']
 
-type PieVariantProps = {
+type RadialVariantProps = {
 	data: { name: string; value: number }[]
 }
 
-export default function PieVariant({ data }: PieVariantProps) {
+export default function RadialVariant({ data }: RadialVariantProps) {
 	return (
 		<ResponsiveContainer width='100%' height={300}>
-			<PieChart>
+			<RadialBarChart
+				cx='50%'
+				cy='30%'
+				barSize={10}
+				innerRadius='90%'
+				outerRadius='40%'
+				data={data.map((item, index) => ({
+					...item,
+					fill: COLORS[index % COLORS.length]
+				}))}
+			>
+				<RadialBar
+					label={{ fill: '#fff', position: 'insideStart', fontSize: '12px' }}
+					background
+					dataKey='value'
+				/>
+
 				<Legend
 					layout='horizontal'
 					verticalAlign='bottom'
@@ -42,7 +57,7 @@ export default function PieVariant({ data }: PieVariantProps) {
 												{entry.value}
 											</span>
 											<span className='text-sm'>
-												{formatPercentage(entry.payload.percent * 100)}
+												{formatCurrency(entry.payload.value)}
 											</span>
 										</div>
 									</li>
@@ -52,22 +67,7 @@ export default function PieVariant({ data }: PieVariantProps) {
 					}}
 				/>
 				<Tooltip content={<ChartCategoryTooltip />} />
-				<Pie
-					data={data}
-					cx='50%'
-					cy='50%'
-					outerRadius={90}
-					innerRadius={60}
-					paddingAngle={2}
-					fill='#8884d8'
-					dataKey='value'
-					labelLine={false}
-				>
-					{data.map((entry, index) => (
-						<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-					))}
-				</Pie>
-			</PieChart>
+			</RadialBarChart>
 		</ResponsiveContainer>
 	)
 }

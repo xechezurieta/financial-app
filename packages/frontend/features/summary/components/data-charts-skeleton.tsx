@@ -1,5 +1,5 @@
-import ChartSkeleton from '@/components/chart-skeleton'
-import SpendingPieSkeleton from '@/components/spending-pie-skeleton'
+import ChartSkeleton from '@/features/summary/components/chart-skeleton'
+import SpendingPieSkeleton from '@/features/summary/components/spending-pie-skeleton'
 
 export default function DataChartsSkeleton() {
 	return (

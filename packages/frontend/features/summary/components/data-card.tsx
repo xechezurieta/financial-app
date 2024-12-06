@@ -8,10 +8,9 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { CountUp } from '@/features/summary/components/count-up'
 import { cn, formatPercentage } from '@/lib/utils'
-
-import { CountUp } from './count-up'
-import { Skeleton } from './ui/skeleton'
 
 const boxVariant = cva('rounded-md p-3', {
 	variants: {
