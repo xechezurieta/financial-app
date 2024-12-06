@@ -2,7 +2,6 @@ import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { deleteTransaction } from '@/actions/transaction'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -10,6 +9,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { deleteTransaction } from '@/features/transactions/actions'
 import { useConfirm } from '@/hooks/use-confirm'
 import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 

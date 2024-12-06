@@ -3,12 +3,6 @@ import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
 import {
-	deleteTransaction,
-	getTransaction,
-	updateTransaction
-} from '@/actions/transaction'
-import TransactionForm from '@/components/transaction/transaction-form'
-import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
@@ -19,6 +13,12 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
+import {
+	deleteTransaction,
+	getTransaction,
+	updateTransaction
+} from '@/features/transactions/actions'
+import TransactionForm from '@/features/transactions/components/transaction-form'
 import { useConfirm } from '@/hooks/use-confirm'
 import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
 import { Transaction } from '@/types/types'

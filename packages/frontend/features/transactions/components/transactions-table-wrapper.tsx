@@ -1,4 +1,4 @@
-import TransactionsTable from '@/components/transaction/transactions-table'
+import TransactionsTable from '@/features/transactions/components/transactions-table'
 import { getTransactions } from '@/services/transaction-api'
 
 export default async function TransactionsTableWrapper({

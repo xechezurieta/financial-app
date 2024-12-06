@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 
 import DataTableLoader from '@/components/data-table-loader'
-import NewTransaction from '@/components/transaction/new-transaction'
-import TransactionsTableWrapper from '@/components/transaction/transactions-table-wrapper'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import NewTransaction from '@/features/transactions/components/new-transaction'
+import TransactionsTableWrapper from '@/features/transactions/components/transactions-table-wrapper'
 
 export const dynamic = 'force-dynamic'
 

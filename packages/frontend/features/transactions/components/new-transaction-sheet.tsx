@@ -1,8 +1,6 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { createTransaction } from '@/actions/transaction'
-import TransactionForm from '@/components/transaction/transaction-form'
 import {
 	Sheet,
 	SheetContent,
@@ -14,6 +12,8 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
+import { createTransaction } from '@/features/transactions/actions'
+import TransactionForm from '@/features/transactions/components/transaction-form'
 import { useNewTransaction } from '@/stores/transaction/use-new-transaction'
 
 export default function NewTransactionSheet() {
