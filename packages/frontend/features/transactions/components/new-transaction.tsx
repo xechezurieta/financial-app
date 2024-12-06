@@ -3,7 +3,7 @@
 import { Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { useNewTransaction } from '@/stores/transaction/use-new-transaction'
+import { useNewTransaction } from '@/features/transactions/stores/use-new-transaction'
 
 export default function NewTransaction() {
 	const newTransaction = useNewTransaction()

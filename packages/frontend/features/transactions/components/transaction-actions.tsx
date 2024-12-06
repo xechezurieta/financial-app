@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { deleteTransaction } from '@/features/transactions/actions'
 import { useConfirm } from '@/hooks/use-confirm'
-import { useOpenTransaction } from '@/stores/transaction/use-open-transaction'
+import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
 
 export default function TransactionActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({

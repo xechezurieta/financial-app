@@ -14,7 +14,7 @@ import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
 import { createTransaction } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
-import { useNewTransaction } from '@/stores/transaction/use-new-transaction'
+import { useNewTransaction } from '@/features/transactions/stores/use-new-transaction'
 
 export default function NewTransactionSheet() {
 	const { isOpen, onClose } = useNewTransaction()
