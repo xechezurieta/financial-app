@@ -4,7 +4,6 @@ import { Trash } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import AmountInput from '@/components/amount-input'
 import DatePicker from '@/components/date-picker'
 import Select from '@/components/select'
 import { Button } from '@/components/ui/button'
@@ -18,6 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import AmountInput from '@/features/transactions/components/amount-input'
 import { convertAmountToMiliunits } from '@/lib/utils'
 
 const formSchema = z.object({
