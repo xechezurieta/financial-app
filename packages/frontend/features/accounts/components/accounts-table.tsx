@@ -3,7 +3,7 @@ import { Row } from '@tanstack/react-table'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
-import { DataTable } from '@/components/data-table'
+import { DataTable } from '@/components/table/data-table'
 import { deleteAccounts } from '@/features/accounts/actions'
 import { columns } from '@/features/accounts/components/colums'
 import { Account } from '@/types/types'

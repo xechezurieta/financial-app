@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 
-import AccountFilter from '@/components/account-filter'
-import DateFilter from '@/components/date-filter'
+import AccountFilter from '@/components/header/account-filter'
+import DateFilter from '@/components/header/date-filter'
 
 export default function Filters() {
 	return (

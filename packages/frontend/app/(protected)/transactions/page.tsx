@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import DataTableLoader from '@/components/data-table-loader'
+import DataTableLoader from '@/components/table/data-table-loader'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NewTransaction from '@/features/transactions/components/new-transaction'
 import TransactionsTableWrapper from '@/features/transactions/components/transactions-table-wrapper'

@@ -1,5 +1,5 @@
-import Filters from '@/components/filters'
 import AvatarMenu from '@/components/header/avatar-menu'
+import Filters from '@/components/header/filters'
 import Logo from '@/components/header/logo'
 import Navigation from '@/components/header/navigation'
 import Welcome from '@/components/header/welcome'
