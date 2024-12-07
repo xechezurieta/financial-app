@@ -1,26 +1,12 @@
 'use client'
-import { Row } from '@tanstack/react-table'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
 
 import { DataTable } from '@/components/table/data-table'
-import { deleteAccounts } from '@/features/accounts/actions'
 import { columns } from '@/features/accounts/components/colums'
-import { Account } from '@/types/types'
+import useDeleteAccount from '@/features/accounts/hooks/use-delete-account'
+import { Account } from '@/features/accounts/types'
 
 export default function AccountsTable({ accounts }: { accounts: Account[] }) {
-	const [isDeleting, startDeleteTransition] = useTransition()
-	const handleDelete = (row: Row<Account>[]) => {
-		startDeleteTransition(async () => {
-			const ids = row.map((r) => r.original.id)
-			const data = await deleteAccounts(ids)
-			if (data && 'error' in data) {
-				toast.error('Error eliminando cuentas')
-				return
-			}
-			toast.success('Cuentas eliminadas')
-		})
-	}
+	const { isDeleting, handleDelete } = useDeleteAccount()
 	return (
 		<DataTable
 			filterKey='name'
