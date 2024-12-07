@@ -3,7 +3,7 @@ import SpendingPieSkeleton from '@/features/summary/components/spending-pie-skel
 
 export default function DataChartsSkeleton() {
 	return (
-		<div className='grid grid-cols-1 lg-grid-cols-6 gap-8'>
+		<div className='grid grid-cols-1 lg:grid-cols-6 gap-8'>
 			<div className='col-span-1 lg:col-span-3 xl:col-span-4'>
 				<ChartSkeleton />
 			</div>
