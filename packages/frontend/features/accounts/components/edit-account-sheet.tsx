@@ -16,8 +16,8 @@ import {
 } from '@/features/accounts/actions'
 import AccountForm from '@/features/accounts/components/account-form'
 import { useOpenAccount } from '@/features/accounts/store/use-open-account'
+import { Account } from '@/features/accounts/types'
 import { useConfirm } from '@/hooks/use-confirm'
-import { Account } from '@/types/types'
 
 export default function EditAccountSheet() {
 	const { confirm, ConfirmDialog } = useConfirm({

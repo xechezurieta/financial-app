@@ -3,8 +3,8 @@ import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
 import { getAccounts as getAccountsService } from '@/features/accounts/account-api'
+import { Account } from '@/features/accounts/types'
 import { getAPIUrl } from '@/lib/utils'
-import { Account } from '@/types/types'
 
 export const createAccount = async (name: string) => {
 	const session = await auth()
@@ -37,7 +37,8 @@ export const createAccount = async (name: string) => {
 
 export const deleteAccounts = async (accountIds: Array<string>) => {
 	const session = await auth()
-	if (!session) return
+	if (!session) throw new Error('No session')
+
 	const apiUrl = getAPIUrl('/accounts/bulk-delete')
 	try {
 		const response = await fetch(apiUrl, {
@@ -51,7 +52,7 @@ export const deleteAccounts = async (accountIds: Array<string>) => {
 			})
 		})
 		if (!response.ok) {
-			return { error: 'Error deleting accounts' }
+			throw new Error('Error deleting accounts')
 		}
 		const data: { deletedAccounts: Array<string> } = await response.json()
 		revalidatePath('/accounts')
