@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { deleteAccounts } from '@/features/accounts/actions'
 import { Account } from '@/features/accounts/types'
 
-export default function useDeleteAccount() {
+export default function useDeleteAccounts() {
 	const [isDeleting, startDeleteTransition] = useTransition()
 	const queryClient = useQueryClient()
 	const handleDelete = (row: Row<Account>[]) => {
@@ -14,7 +14,8 @@ export default function useDeleteAccount() {
 			const ids = row.map((r) => r.original.id)
 			const data = await deleteAccounts(ids)
 			if (data && 'error' in data) {
-				toast.error('Error eliminando cuentas')
+				const errorText = `Error eliminando ${ids.length === 1 ? 'la cuenta' : 'las cuentas'}`
+				toast.error(errorText)
 				return
 			}
 			await queryClient.invalidateQueries({ queryKey: ['accounts'] })
@@ -22,7 +23,9 @@ export default function useDeleteAccount() {
 				queryKey: ['summary'],
 				exact: false
 			})
-			toast.success('Cuentas eliminadas')
+			const successText =
+				ids.length === 1 ? 'Cuenta eliminada' : 'Cuentas eliminadas'
+			toast.success(successText)
 		})
 	}
 

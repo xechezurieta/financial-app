@@ -2,11 +2,11 @@
 
 import { DataTable } from '@/components/table/data-table'
 import { columns } from '@/features/accounts/components/colums'
-import useDeleteAccount from '@/features/accounts/hooks/use-delete-account'
+import useDeleteAccounts from '@/features/accounts/hooks/use-delete-accounts'
 import { Account } from '@/features/accounts/types'
 
 export default function AccountsTable({ accounts }: { accounts: Account[] }) {
-	const { isDeleting, handleDelete } = useDeleteAccount()
+	const { isDeleting, handleDelete } = useDeleteAccounts()
 	return (
 		<DataTable
 			filterKey='name'
