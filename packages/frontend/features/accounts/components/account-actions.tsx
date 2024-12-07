@@ -1,6 +1,4 @@
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -9,7 +7,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { deleteAccount } from '@/features/accounts/actions'
+import useDeleteAccount from '@/features/accounts/hooks/use-delete-account'
 import { useOpenAccount } from '@/features/accounts/store/use-open-account'
 import { useConfirm } from '@/hooks/use-confirm'
 
@@ -19,20 +17,13 @@ export default function AccountActions({ id }: { id: string }) {
 		description: '¿Estás seguro de que quieres eliminar esta cuenta?'
 	})
 	const { onOpen } = useOpenAccount()
-	const [isDeletingAccount, deleteAccountTransition] = useTransition()
+	const { isDeletingAccount, handleDelete } = useDeleteAccount()
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteAccountTransition(async () => {
-			const account = await deleteAccount(id)
-			if (account && 'error' in account) {
-				toast.error('Error eliminando la cuenta')
-				return
-			}
-			toast.success('Cuenta eliminada')
-		})
+		handleDelete(id)
 	}
 
 	return (
