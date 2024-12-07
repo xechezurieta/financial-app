@@ -13,20 +13,18 @@ export default async function TransactionsPage(props: {
 }) {
 	const params = await props.searchParams
 	return (
-		<div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
-			<Card className='border-none drop-shadow-sm'>
-				<CardHeader className='gap-y-2 lg:flex-row lg:items-center lg:justify-between'>
-					<CardTitle className='text-xl line-clamp-1'>
-						Página de transacciones
-					</CardTitle>
-					<NewTransaction />
-				</CardHeader>
-				<CardContent>
-					<Suspense fallback={<DataTableLoader />}>
-						<TransactionsTableWrapper params={params} />
-					</Suspense>
-				</CardContent>
-			</Card>
-		</div>
+		<Card className='border-none drop-shadow-sm'>
+			<CardHeader className='gap-y-2 lg:flex-row lg:items-center lg:justify-between'>
+				<CardTitle className='text-xl line-clamp-1'>
+					Página de transacciones
+				</CardTitle>
+				<NewTransaction />
+			</CardHeader>
+			<CardContent>
+				<Suspense fallback={<DataTableLoader />}>
+					<TransactionsTableWrapper params={params} />
+				</Suspense>
+			</CardContent>
+		</Card>
 	)
 }

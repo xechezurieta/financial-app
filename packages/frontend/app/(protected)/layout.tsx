@@ -11,7 +11,9 @@ export default function ProtectedLayout({
 			<Header />
 			<main className='px-3 lg:px-14'>
 				<SheetProvider />
-				{children}
+				<div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
+					{children}
+				</div>
 			</main>
 		</>
 	)
