@@ -54,6 +54,7 @@ export const deleteCategories = async (categoryIds: Array<string>) => {
 		}
 		const data: { deletedCategories: Array<string> } = await response.json()
 		revalidatePath('/categories')
+		revalidatePath('/transactions')
 		revalidatePath('/summary')
 		return data
 	} catch (error) {
