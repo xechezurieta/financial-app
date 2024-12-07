@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
 import { getCategories } from '@/features/categories/categories-api'
+import { Category } from '@/features/categories/types'
 import { getAPIUrl } from '@/lib/utils'
-import { Category } from '@/types/types'
 
 export const createCategory = async (name: string) => {
 	const session = await auth()

@@ -4,7 +4,7 @@ import { ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import CategoryActions from '@/features/categories/components/category-actions'
-import { Category } from '@/types/types'
+import { Category } from '@/features/categories/types'
 
 export const columns: ColumnDef<Category>[] = [
 	{

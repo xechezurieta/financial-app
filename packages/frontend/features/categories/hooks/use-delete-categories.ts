@@ -4,7 +4,7 @@ import { useTransition } from 'react'
 import { toast } from 'sonner'
 
 import { deleteCategories } from '@/features/categories/actions'
-import { Category } from '@/types/types'
+import { Category } from '@/features/categories/types'
 
 export default function useDeleteCategories() {
 	const [isDeleting, startDeleteTransition] = useTransition()

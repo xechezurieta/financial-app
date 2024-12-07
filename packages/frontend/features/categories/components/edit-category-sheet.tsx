@@ -16,8 +16,8 @@ import {
 } from '@/features/categories/actions'
 import CategoryForm from '@/features/categories/components/category-form'
 import { useOpenCategory } from '@/features/categories/stores/use-open-category'
+import { Category } from '@/features/categories/types'
 import { useConfirm } from '@/hooks/use-confirm'
-import { Category } from '@/types/types'
 
 export default function EditCategorySheet() {
 	const { confirm, ConfirmDialog } = useConfirm({

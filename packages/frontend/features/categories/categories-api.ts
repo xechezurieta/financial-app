@@ -1,5 +1,5 @@
+import { Category } from '@/features/categories/types'
 import { getAPIUrl } from '@/lib/utils'
-import { Category } from '@/types/types'
 
 export const getCategories = async () => {
 	const apiUrl = getAPIUrl('/categories')

@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from 'react'
 
 import { getCategoriesAction } from '@/features/categories/actions'
-import { Category } from '@/types/types'
+import { Category } from '@/features/categories/types'
 
 export default function useGetCategories() {
 	const [isPending, startTransition] = useTransition()
