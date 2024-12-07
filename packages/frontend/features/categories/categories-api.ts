@@ -6,12 +6,12 @@ export const getCategories = async () => {
 	try {
 		const response = await fetch(apiUrl)
 		if (!response.ok) {
-			return null
+			throw new Error('Error getting categories')
 		}
 		const data: { categories: Category[] } = await response.json()
 		return data
 	} catch (error) {
 		console.error(error)
-		return null
+		return { error: 'Error getting categories' }
 	}
 }
