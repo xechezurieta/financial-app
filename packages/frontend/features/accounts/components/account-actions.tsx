@@ -23,7 +23,7 @@ export default function AccountActions({ id }: { id: string }) {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		handleDelete(id)
+		handleDelete({ id })
 	}
 
 	return (

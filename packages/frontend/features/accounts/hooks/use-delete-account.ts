@@ -7,7 +7,13 @@ import { deleteAccount } from '@/features/accounts/actions'
 export default function useDeleteAccount() {
 	const [isDeletingAccount, deleteAccountTransition] = useTransition()
 	const queryClient = useQueryClient()
-	const handleDelete = async (id: string) => {
+	const handleDelete = ({
+		id,
+		onClose
+	}: {
+		id: string
+		onClose?: () => void
+	}) => {
 		deleteAccountTransition(async () => {
 			const data = await deleteAccount(id)
 			if (data && 'error' in data) {
@@ -20,6 +26,7 @@ export default function useDeleteAccount() {
 				exact: false
 			})
 			toast.success('Cuenta eliminada')
+			onClose?.()
 		})
 	}
 

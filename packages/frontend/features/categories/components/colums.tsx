@@ -4,9 +4,9 @@ import { ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import CategoryActions from '@/features/categories/components/category-actions'
-import { Account } from '@/types/types'
+import { Category } from '@/types/types'
 
-export const columns: ColumnDef<Account>[] = [
+export const columns: ColumnDef<Category>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
