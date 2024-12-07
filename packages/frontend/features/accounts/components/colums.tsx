@@ -4,7 +4,7 @@ import { ArrowUpDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import AccountActions from '@/features/accounts/components/account-actions'
-import { Account } from '@/types/types'
+import { Account } from '@/features/accounts/types'
 export type Payment = {
 	id: string
 	amount: number

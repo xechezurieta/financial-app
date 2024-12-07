@@ -1,7 +1,4 @@
-import { Loader2 } from 'lucide-react'
-import { useEffect, useState, useTransition } from 'react'
-import { toast } from 'sonner'
-
+import LoadingContainer from '@/components/loading-container'
 import {
 	Sheet,
 	SheetContent,
@@ -9,15 +6,12 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import {
-	editAccountName,
-	getAccount,
-	deleteAccount
-} from '@/features/accounts/actions'
 import AccountForm from '@/features/accounts/components/account-form'
+import useDeleteAccount from '@/features/accounts/hooks/use-delete-account'
+import useEditAccount from '@/features/accounts/hooks/use-edit-account'
+import useGetAccount from '@/features/accounts/hooks/use-get-account'
 import { useOpenAccount } from '@/features/accounts/store/use-open-account'
 import { useConfirm } from '@/hooks/use-confirm'
-import { Account } from '@/types/types'
 
 export default function EditAccountSheet() {
 	const { confirm, ConfirmDialog } = useConfirm({
@@ -25,51 +19,21 @@ export default function EditAccountSheet() {
 		description: '¿Estás seguro de que quieres eliminar esta cuenta?'
 	})
 	const { isOpen, onClose, id } = useOpenAccount()
-	const [isEditingAccount, editAccountTransition] = useTransition()
-	const [isDeletingAccount, deleteAccountTransition] = useTransition()
-	const [account, setAccount] = useState<Account | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
-
-	useEffect(() => {
-		if (id) {
-			setIsLoading(true)
-			getAccount(id).then((data) => {
-				if (data && 'account' in data) {
-					setAccount(data.account)
-				}
-				setIsLoading(false)
-			})
-		} else {
-			setAccount(null)
-		}
-	}, [id])
+	const { handleEdit, isEditingAccount } = useEditAccount()
+	const { handleDelete, isDeletingAccount } = useDeleteAccount()
+	const { data, isPending } = useGetAccount({ id })
+	const account = data && 'account' in data ? data.account : null
 
 	const onSubmit = ({ name }: { name: string }) => {
-		editAccountTransition(async () => {
-			if (!id) return
-			const account = await editAccountName({ name, accountId: id })
-			if (account && 'error' in account) {
-				toast.error('Error editando la cuenta')
-				return
-			}
-			onClose()
-			toast.success('Cuenta editada')
-		})
+		if (!id) return
+		handleEdit({ name, id, onClose })
 	}
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteAccountTransition(async () => {
-			const account = await deleteAccount(id)
-			if (account && 'error' in account) {
-				toast.error('Error eliminando la cuenta')
-				return
-			}
-			onClose()
-			toast.success('Cuenta eliminada')
-		})
+		handleDelete({ id, onClose })
 	}
 
 	return (
@@ -83,15 +47,13 @@ export default function EditAccountSheet() {
 							Modifica los datos de tu cuenta.
 						</SheetDescription>
 					</SheetHeader>
-					{isLoading ? (
-						<div className='flex justify-center items-center absolute inset-0'>
-							<Loader2 className='size-4 text-muted-foreground animate-spin' />
-						</div>
+					{isPending ? (
+						<LoadingContainer />
 					) : (
 						<AccountForm
 							id={id}
 							onSubmit={onSubmit}
-							disabled={isEditingAccount || isLoading || isDeletingAccount}
+							disabled={isEditingAccount || isPending || isDeletingAccount}
 							defaultValues={{
 								name: account?.name || ''
 							}}
