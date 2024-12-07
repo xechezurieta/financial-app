@@ -40,7 +40,7 @@ type TransactionFormProps = {
 	accountOptions: { label: string; value: string }[]
 	categoryOptions: { label: string; value: string }[]
 	onCreateAccount: ({ name }: { name: string }) => void
-	onCreateCategory: (name: string) => void
+	onCreateCategory: ({ name }: { name: string }) => void
 }
 
 export default function TransactionForm({
@@ -75,6 +75,10 @@ export default function TransactionForm({
 
 	const handleCreateAccount = (name: string) => {
 		onCreateAccount({ name })
+	}
+
+	const handleCreateCategory = (name: string) => {
+		onCreateCategory({ name })
 	}
 	return (
 		<Form {...form}>
@@ -132,7 +136,7 @@ export default function TransactionForm({
 									options={categoryOptions}
 									onChange={field.onChange}
 									value={field.value}
-									onCreate={onCreateCategory}
+									onCreate={handleCreateCategory}
 									disabled={disabled}
 								/>
 							</FormControl>

@@ -19,7 +19,11 @@ import { useNewTransaction } from '@/features/transactions/stores/use-new-transa
 export default function NewTransactionSheet() {
 	const { isOpen, onClose } = useNewTransaction()
 	const [isCreatingTransaction, createTransactionTransition] = useTransition()
-	const { categories } = useGetCategories()
+	const { data: dataCategories } = useGetCategories()
+	const categories =
+		dataCategories && 'categories' in dataCategories
+			? dataCategories.categories
+			: []
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
 	const { data } = useGetAccounts()

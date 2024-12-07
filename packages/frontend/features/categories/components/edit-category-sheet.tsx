@@ -1,7 +1,4 @@
-import { Loader2 } from 'lucide-react'
-import { useEffect, useState, useTransition } from 'react'
-import { toast } from 'sonner'
-
+import LoadingContainer from '@/components/loading-container'
 import {
 	Sheet,
 	SheetContent,
@@ -9,14 +6,11 @@ import {
 	SheetHeader,
 	SheetTitle
 } from '@/components/ui/sheet'
-import {
-	deleteCategory,
-	editCategoryName,
-	getCategory
-} from '@/features/categories/actions'
 import CategoryForm from '@/features/categories/components/category-form'
+import useDeleteCategory from '@/features/categories/hooks/use-delete-category'
+import useEditCategory from '@/features/categories/hooks/use-edit-category'
+import useGetCategory from '@/features/categories/hooks/use-get-category'
 import { useOpenCategory } from '@/features/categories/stores/use-open-category'
-import { Category } from '@/features/categories/types'
 import { useConfirm } from '@/hooks/use-confirm'
 
 export default function EditCategorySheet() {
@@ -25,51 +19,22 @@ export default function EditCategorySheet() {
 		description: '¿Estás seguro de que quieres eliminar esta categoría?'
 	})
 	const { isOpen, onClose, id } = useOpenCategory()
-	const [isEditingCategory, editCategoryTransition] = useTransition()
-	const [isDeletingCategory, deleteCategoryTransition] = useTransition()
-	const [category, setCategory] = useState<Category | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
+	const { handleEdit, isEditingCategory } = useEditCategory()
+	const { handleDelete, isDeletingCategory } = useDeleteCategory()
 
-	useEffect(() => {
-		if (id) {
-			setIsLoading(true)
-			getCategory(id).then((data) => {
-				if (data && 'category' in data) {
-					setCategory(data.category)
-				}
-				setIsLoading(false)
-			})
-		} else {
-			setCategory(null)
-		}
-	}, [id])
+	const { data, isPending } = useGetCategory({ id })
+	const category = data && 'category' in data ? data.category : null
 
 	const onSubmit = ({ name }: { name: string }) => {
-		editCategoryTransition(async () => {
-			if (!id) return
-			const account = await editCategoryName({ name, categoryId: id })
-			if (account && 'error' in account) {
-				toast.error('Error editando la categoría')
-				return
-			}
-			onClose()
-			toast.success('Categoría editada')
-		})
+		if (!id) return
+		handleEdit({ name, id, onClose })
 	}
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteCategoryTransition(async () => {
-			const category = await deleteCategory(id)
-			if (category && 'error' in category) {
-				toast.error('Error eliminando la categoría')
-				return
-			}
-			onClose()
-			toast.success('Categoría eliminada')
-		})
+		handleDelete({ id, onClose })
 	}
 
 	return (
@@ -83,15 +48,13 @@ export default function EditCategorySheet() {
 							Modifica los datos de tu categoría.
 						</SheetDescription>
 					</SheetHeader>
-					{isLoading ? (
-						<div className='flex justify-center items-center absolute inset-0'>
-							<Loader2 className='size-4 text-muted-foreground animate-spin' />
-						</div>
+					{isPending ? (
+						<LoadingContainer />
 					) : (
 						<CategoryForm
 							id={id}
 							onSubmit={onSubmit}
-							disabled={isEditingCategory || isLoading || isDeletingCategory}
+							disabled={isEditingCategory || isPending || isDeletingCategory}
 							defaultValues={{
 								name: category?.name || ''
 							}}

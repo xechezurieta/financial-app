@@ -1,6 +1,4 @@
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -9,7 +7,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { deleteCategory } from '@/features/categories/actions'
+import useDeleteCategory from '@/features/categories/hooks/use-delete-category'
 import { useOpenCategory } from '@/features/categories/stores/use-open-category'
 import { useConfirm } from '@/hooks/use-confirm'
 
@@ -19,20 +17,13 @@ export default function CategoryActions({ id }: { id: string }) {
 		description: '¿Estás seguro de que quieres eliminar esta categoría?'
 	})
 	const { onOpen } = useOpenCategory()
-	const [isDeletingCategory, deleteCategoryTransition] = useTransition()
+	const { isDeletingCategory, handleDelete } = useDeleteCategory()
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteCategoryTransition(async () => {
-			const category = await deleteCategory(id)
-			if (category && 'error' in category) {
-				toast.error('Error eliminando la categoría')
-				return
-			}
-			toast.success('Categoría eliminada')
-		})
+		handleDelete({ id })
 	}
 
 	return (

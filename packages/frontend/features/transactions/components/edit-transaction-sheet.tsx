@@ -34,7 +34,11 @@ export default function EditTransactionSheet() {
 	const [transaction, setTransaction] = useState<Transaction | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { categories } = useGetCategories()
+	const { data: dataCategories } = useGetCategories()
+	const categories =
+		dataCategories && 'categories' in dataCategories
+			? dataCategories.categories
+			: []
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
 	const { data } = useGetAccounts()
