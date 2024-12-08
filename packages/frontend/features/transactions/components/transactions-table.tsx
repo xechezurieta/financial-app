@@ -3,7 +3,7 @@
 import { DataTable } from '@/components/table/data-table'
 import { columns } from '@/features/transactions/components/colums'
 import useDeleteTransactions from '@/features/transactions/hooks/use-delete-transactions'
-import { Transaction } from '@/types/types'
+import { Transaction } from '@/features/transactions/types'
 
 export default function TransactionsTable({
 	transactions

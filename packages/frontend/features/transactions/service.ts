@@ -1,5 +1,5 @@
+import { Transaction } from '@/features/transactions/types'
 import { convertAmountFromMiliunits, getAPIUrl } from '@/lib/utils'
-import { Transaction } from '@/types/types'
 
 export const getTransactions = async ({
 	from,

@@ -20,8 +20,8 @@ import {
 } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
+import { Transaction } from '@/features/transactions/types'
 import { useConfirm } from '@/hooks/use-confirm'
-import { Transaction } from '@/types/types'
 
 export default function EditTransactionSheet() {
 	const { confirm, ConfirmDialog } = useConfirm({

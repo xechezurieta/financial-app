@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 
 import { auth } from '@/app/(auth)/auth'
+import { Transaction } from '@/features/transactions/types'
 import { convertAmountFromMiliunits, getAPIUrl } from '@/lib/utils'
-import { Transaction } from '@/types/types'
 
 export const createTransaction = async ({
 	userId,

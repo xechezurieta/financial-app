@@ -8,8 +8,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import AccountColumn from '@/features/transactions/components/account-column'
 import CategoryColumn from '@/features/transactions/components/category-column'
 import TransactionActions from '@/features/transactions/components/transaction-actions'
+import { Transaction } from '@/features/transactions/types'
 import formatCurrency from '@/lib/utils'
-import { Transaction } from '@/types/types'
 
 export const columns: ColumnDef<Transaction>[] = [
 	{

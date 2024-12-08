@@ -4,7 +4,7 @@ import { useTransition } from 'react'
 import { toast } from 'sonner'
 
 import { deleteTransactions } from '@/features/transactions/actions'
-import { Transaction } from '@/types/types'
+import { Transaction } from '@/features/transactions/types'
 
 export default function useDeleteTransactions() {
 	const [isDeleting, startDeleteTransition] = useTransition()
