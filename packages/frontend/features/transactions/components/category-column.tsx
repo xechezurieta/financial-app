@@ -1,8 +1,8 @@
 import { TriangleAlert } from 'lucide-react'
 
 import { useOpenCategory } from '@/features/categories/stores/use-open-category'
-import { cn } from '@/lib/utils'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
+import { cn } from '@/lib/utils'
 
 type CategoryColumnProps = {
 	id: string

@@ -10,8 +10,8 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { deleteTransaction } from '@/features/transactions/actions'
-import { useConfirm } from '@/hooks/use-confirm'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
+import { useConfirm } from '@/hooks/use-confirm'
 
 export default function TransactionActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({
