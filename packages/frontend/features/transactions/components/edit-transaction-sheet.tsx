@@ -1,5 +1,4 @@
-import { useEffect, useState, useTransition } from 'react'
-import { toast } from 'sonner'
+import { useEffect, useState } from 'react'
 
 import LoadingContainer from '@/components/loading-container'
 import {
@@ -13,12 +12,10 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
-import {
-	getTransaction,
-	updateTransaction
-} from '@/features/transactions/actions'
+import { getTransaction } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
 import useDeleteTransaction from '@/features/transactions/hooks/use-delete-transaction'
+import useEditTransaction from '@/features/transactions/hooks/use-edit-transaction'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
 import { Transaction } from '@/features/transactions/types'
 import { useConfirm } from '@/hooks/use-confirm'
@@ -29,7 +26,7 @@ export default function EditTransactionSheet() {
 		description: '¿Estás seguro de que quieres eliminar esta transacción?'
 	})
 	const { isOpen, onClose, id } = useOpenTransaction()
-	const [isEditingTransaction, editTransactionTransition] = useTransition()
+	const { isEditingTransaction, handleEdit } = useEditTransaction()
 	const { isDeletingTransaction, handleDelete } = useDeleteTransaction()
 	const [transaction, setTransaction] = useState<Transaction | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
@@ -73,23 +70,17 @@ export default function EditTransactionSheet() {
 		accountId: string
 		userId: string
 	}) => {
-		editTransactionTransition(async () => {
-			if (!id) return
-			const transaction = await updateTransaction({
-				transactionId: id,
-				date,
-				categoryId,
-				payee,
-				amount: +amount,
-				notes,
-				accountId
-			})
-			if (transaction && 'error' in transaction) {
-				toast.error('Error editando la transacción')
-				return
-			}
-			onClose()
-			toast.success('Transacción editada')
+		if (!id) return
+		handleEdit({
+			id,
+			date,
+			categoryId,
+			payee,
+			amount,
+			notes,
+			accountId,
+			userId,
+			onClose
 		})
 	}
 
