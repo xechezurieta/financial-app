@@ -1,7 +1,7 @@
-import { Loader2 } from 'lucide-react'
 import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
+import LoadingContainer from '@/components/loading-container'
 import {
 	Sheet,
 	SheetContent,
@@ -14,11 +14,11 @@ import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
 import {
-	deleteTransaction,
 	getTransaction,
 	updateTransaction
 } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
+import useDeleteTransaction from '@/features/transactions/hooks/use-delete-transaction'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
 import { Transaction } from '@/features/transactions/types'
 import { useConfirm } from '@/hooks/use-confirm'
@@ -30,7 +30,7 @@ export default function EditTransactionSheet() {
 	})
 	const { isOpen, onClose, id } = useOpenTransaction()
 	const [isEditingTransaction, editTransactionTransition] = useTransition()
-	const [isDeletingTransaction, deleteTransactionTransition] = useTransition()
+	const { isDeletingTransaction, handleDelete } = useDeleteTransaction()
 	const [transaction, setTransaction] = useState<Transaction | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -97,14 +97,9 @@ export default function EditTransactionSheet() {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteTransactionTransition(async () => {
-			const transaction = await deleteTransaction(id)
-			if (transaction && 'error' in transaction) {
-				toast.error('Error eliminando la transacción')
-				return
-			}
-			onClose()
-			toast.success('Transacción eliminada')
+		handleDelete({
+			id,
+			onClose
 		})
 	}
 
@@ -120,9 +115,7 @@ export default function EditTransactionSheet() {
 						</SheetDescription>
 					</SheetHeader>
 					{isLoading ? (
-						<div className='flex justify-center items-center absolute inset-0'>
-							<Loader2 className='size-4 text-muted-foreground animate-spin' />
-						</div>
+						<LoadingContainer />
 					) : (
 						<TransactionForm
 							id={id}
