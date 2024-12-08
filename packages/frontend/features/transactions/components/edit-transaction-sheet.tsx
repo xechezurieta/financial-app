@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import LoadingContainer from '@/components/loading-container'
 import {
 	Sheet,
@@ -12,12 +10,11 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
-import { getTransaction } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
 import useDeleteTransaction from '@/features/transactions/hooks/use-delete-transaction'
 import useEditTransaction from '@/features/transactions/hooks/use-edit-transaction'
+import useGetTransaction from '@/features/transactions/hooks/use-get-transaction'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
-import { Transaction } from '@/features/transactions/types'
 import { useConfirm } from '@/hooks/use-confirm'
 
 export default function EditTransactionSheet() {
@@ -28,8 +25,8 @@ export default function EditTransactionSheet() {
 	const { isOpen, onClose, id } = useOpenTransaction()
 	const { isEditingTransaction, handleEdit } = useEditTransaction()
 	const { isDeletingTransaction, handleDelete } = useDeleteTransaction()
-	const [transaction, setTransaction] = useState<Transaction | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
+	const { isPending, data } = useGetTransaction({ id })
+	const transaction = data && 'transaction' in data ? data.transaction : null
 
 	const { data: dataCategories } = useGetCategories()
 	const categories =
@@ -38,20 +35,7 @@ export default function EditTransactionSheet() {
 			: []
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
-	const { data } = useGetAccounts()
-	useEffect(() => {
-		if (id) {
-			setIsLoading(true)
-			getTransaction(id).then((data) => {
-				if (data && 'transaction' in data) {
-					setTransaction(data.transaction)
-				}
-				setIsLoading(false)
-			})
-		} else {
-			setTransaction(null)
-		}
-	}, [id])
+	const { data: dataAccounts } = useGetAccounts()
 
 	const onSubmit = ({
 		date,
@@ -105,14 +89,14 @@ export default function EditTransactionSheet() {
 							Modifica los datos de tu transacción.
 						</SheetDescription>
 					</SheetHeader>
-					{isLoading ? (
+					{isPending ? (
 						<LoadingContainer />
 					) : (
 						<TransactionForm
 							id={id}
 							onSubmit={onSubmit}
 							disabled={
-								isEditingTransaction || isLoading || isDeletingTransaction
+								isEditingTransaction || isPending || isDeletingTransaction
 							}
 							defaultValues={{
 								accountId: transaction?.accountId || '',
@@ -131,7 +115,7 @@ export default function EditTransactionSheet() {
 							}))}
 							onCreateCategory={onCreateCategory}
 							accountOptions={
-								data?.accounts.map((account) => ({
+								dataAccounts?.accounts.map((account) => ({
 									label: account.name,
 									value: account.id
 								})) || []
