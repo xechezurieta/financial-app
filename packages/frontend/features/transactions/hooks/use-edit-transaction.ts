@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 
@@ -5,6 +6,7 @@ import { updateTransaction } from '@/features/transactions/actions'
 
 export default function useEditTransaction() {
 	const [isEditingTransaction, editTransactionTransition] = useTransition()
+	const queryClient = useQueryClient()
 	const handleEdit = ({
 		id,
 		date,
@@ -40,6 +42,11 @@ export default function useEditTransaction() {
 				toast.error('Error editando la transacción')
 				return
 			}
+			await queryClient.invalidateQueries({
+				queryKey: ['summary'],
+				exact: false
+			})
+			await queryClient.invalidateQueries({ queryKey: ['transaction', id] })
 			onClose?.()
 			toast.success('Transacción editada')
 		})
