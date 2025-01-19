@@ -1,6 +1,4 @@
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -9,9 +7,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { deleteTransaction } from '@/features/transactions/actions'
-import { useConfirm } from '@/hooks/use-confirm'
+import useDeleteTransaction from '@/features/transactions/hooks/use-delete-transaction'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
+import { useConfirm } from '@/hooks/use-confirm'
 
 export default function TransactionActions({ id }: { id: string }) {
 	const { ConfirmDialog, confirm } = useConfirm({
@@ -19,20 +17,14 @@ export default function TransactionActions({ id }: { id: string }) {
 		description: '¿Estás seguro de que quieres eliminar esta transacción?'
 	})
 	const { onOpen } = useOpenTransaction()
-	const [isDeletingTransaction, deleteTransactionTransition] = useTransition()
+
+	const { isDeletingTransaction, handleDelete } = useDeleteTransaction()
 
 	const onDelete = async () => {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteTransactionTransition(async () => {
-			const transaction = await deleteTransaction(id)
-			if (transaction && 'error' in transaction) {
-				toast.error('Error eliminando la transacción')
-				return
-			}
-			toast.success('Transacción eliminada')
-		})
+		handleDelete({ id })
 	}
 
 	return (

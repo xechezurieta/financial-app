@@ -1,7 +1,4 @@
-import { Loader2 } from 'lucide-react'
-import { useEffect, useState, useTransition } from 'react'
-import { toast } from 'sonner'
-
+import LoadingContainer from '@/components/loading-container'
 import {
 	Sheet,
 	SheetContent,
@@ -13,15 +10,12 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
-import {
-	deleteTransaction,
-	getTransaction,
-	updateTransaction
-} from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
+import useDeleteTransaction from '@/features/transactions/hooks/use-delete-transaction'
+import useEditTransaction from '@/features/transactions/hooks/use-edit-transaction'
+import useGetTransaction from '@/features/transactions/hooks/use-get-transaction'
 import { useOpenTransaction } from '@/features/transactions/stores/use-open-transaction'
 import { useConfirm } from '@/hooks/use-confirm'
-import { Transaction } from '@/types/types'
 
 export default function EditTransactionSheet() {
 	const { confirm, ConfirmDialog } = useConfirm({
@@ -29,10 +23,10 @@ export default function EditTransactionSheet() {
 		description: '¿Estás seguro de que quieres eliminar esta transacción?'
 	})
 	const { isOpen, onClose, id } = useOpenTransaction()
-	const [isEditingTransaction, editTransactionTransition] = useTransition()
-	const [isDeletingTransaction, deleteTransactionTransition] = useTransition()
-	const [transaction, setTransaction] = useState<Transaction | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
+	const { isEditingTransaction, handleEdit } = useEditTransaction()
+	const { isDeletingTransaction, handleDelete } = useDeleteTransaction()
+	const { isPending, data } = useGetTransaction({ id })
+	const transaction = data && 'transaction' in data ? data.transaction : null
 
 	const { data: dataCategories } = useGetCategories()
 	const categories =
@@ -41,20 +35,7 @@ export default function EditTransactionSheet() {
 			: []
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
-	const { data } = useGetAccounts()
-	useEffect(() => {
-		if (id) {
-			setIsLoading(true)
-			getTransaction(id).then((data) => {
-				if (data && 'transaction' in data) {
-					setTransaction(data.transaction)
-				}
-				setIsLoading(false)
-			})
-		} else {
-			setTransaction(null)
-		}
-	}, [id])
+	const { data: dataAccounts } = useGetAccounts()
 
 	const onSubmit = ({
 		date,
@@ -73,23 +54,17 @@ export default function EditTransactionSheet() {
 		accountId: string
 		userId: string
 	}) => {
-		editTransactionTransition(async () => {
-			if (!id) return
-			const transaction = await updateTransaction({
-				transactionId: id,
-				date,
-				categoryId,
-				payee,
-				amount: +amount,
-				notes,
-				accountId
-			})
-			if (transaction && 'error' in transaction) {
-				toast.error('Error editando la transacción')
-				return
-			}
-			onClose()
-			toast.success('Transacción editada')
+		if (!id) return
+		handleEdit({
+			id,
+			date,
+			categoryId,
+			payee,
+			amount,
+			notes,
+			accountId,
+			userId,
+			onClose
 		})
 	}
 
@@ -97,14 +72,9 @@ export default function EditTransactionSheet() {
 		if (!id) return
 		const confirmed = await confirm()
 		if (!confirmed) return
-		deleteTransactionTransition(async () => {
-			const transaction = await deleteTransaction(id)
-			if (transaction && 'error' in transaction) {
-				toast.error('Error eliminando la transacción')
-				return
-			}
-			onClose()
-			toast.success('Transacción eliminada')
+		handleDelete({
+			id,
+			onClose
 		})
 	}
 
@@ -119,16 +89,14 @@ export default function EditTransactionSheet() {
 							Modifica los datos de tu transacción.
 						</SheetDescription>
 					</SheetHeader>
-					{isLoading ? (
-						<div className='flex justify-center items-center absolute inset-0'>
-							<Loader2 className='size-4 text-muted-foreground animate-spin' />
-						</div>
+					{isPending ? (
+						<LoadingContainer />
 					) : (
 						<TransactionForm
 							id={id}
 							onSubmit={onSubmit}
 							disabled={
-								isEditingTransaction || isLoading || isDeletingTransaction
+								isEditingTransaction || isPending || isDeletingTransaction
 							}
 							defaultValues={{
 								accountId: transaction?.accountId || '',
@@ -147,7 +115,7 @@ export default function EditTransactionSheet() {
 							}))}
 							onCreateCategory={onCreateCategory}
 							accountOptions={
-								data?.accounts.map((account) => ({
+								dataAccounts?.accounts.map((account) => ({
 									label: account.name,
 									value: account.id
 								})) || []
