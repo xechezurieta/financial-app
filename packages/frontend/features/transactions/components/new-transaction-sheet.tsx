@@ -12,13 +12,13 @@ import useCreateAccount from '@/features/accounts/hooks/use-create-account'
 import useGetAccounts from '@/features/accounts/hooks/use-get-accounts'
 import useCreateCategory from '@/features/categories/hooks/use-create-category'
 import useGetCategories from '@/features/categories/hooks/use-get-categories'
-import { createTransaction } from '@/features/transactions/actions'
 import TransactionForm from '@/features/transactions/components/transaction-form'
+import useCreateTransaction from '@/features/transactions/hooks/use-create-transaction'
 import { useNewTransaction } from '@/features/transactions/stores/use-new-transaction'
 
 export default function NewTransactionSheet() {
 	const { isOpen, onClose } = useNewTransaction()
-	const [isCreatingTransaction, createTransactionTransition] = useTransition()
+	const { isCreatingTransaction, onSubmit } = useCreateTransaction(onClose)
 	const { data: dataCategories } = useGetCategories()
 	const categories =
 		dataCategories && 'categories' in dataCategories
@@ -27,41 +27,7 @@ export default function NewTransactionSheet() {
 	const { onSubmit: onCreateCategory } = useCreateCategory()
 	const { onSubmit: onCreateAccount } = useCreateAccount()
 	const { data } = useGetAccounts()
-	const onSubmit = ({
-		userId,
-		date,
-		categoryId,
-		payee,
-		amount,
-		notes,
-		accountId
-	}: {
-		userId: string
-		date: Date
-		categoryId?: string | null
-		payee: string
-		amount: string
-		notes?: string | null
-		accountId: string
-	}) => {
-		createTransactionTransition(async () => {
-			const transaction = await createTransaction({
-				userId,
-				date,
-				categoryId: categoryId ?? '',
-				payee,
-				amount: +amount,
-				notes: notes ?? '',
-				accountId
-			})
-			if (transaction && 'error' in transaction) {
-				toast.error('Error creando la transacción')
-				return
-			}
-			onClose()
-			toast.success('Transacción creada')
-		})
-	}
+
 	return (
 		<Sheet open={isOpen} onOpenChange={onClose}>
 			<SheetContent className='space-y-4'>

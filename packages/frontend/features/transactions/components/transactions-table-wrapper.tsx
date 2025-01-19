@@ -1,3 +1,5 @@
+import { toast } from 'sonner'
+
 import TransactionsTable from '@/features/transactions/components/transactions-table'
 import { getTransactions } from '@/features/transactions/service'
 
@@ -15,7 +17,9 @@ export default async function TransactionsTableWrapper({
 		accountId: accountId || '',
 		userId: '1'
 	})
-	console.log({ data })
-	if (!data) return null
+	if (data && 'error' in data) {
+		toast.error('Ha ocurrido un error obteniendo las transacciones')
+		return null
+	}
 	return <TransactionsTable transactions={data.transactions} />
 }
